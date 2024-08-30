@@ -21,7 +21,7 @@ for i = 1:size(req, 1)
 
     kfModel.spec = specification(eq,'logic');
     kfModel.runs=1;
-    kfModel.verb=3;
+    kfModel.verb=1;
 
     kfModel.reach.split=true;
     kfSolns = falsify(kfModel);
