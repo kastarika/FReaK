@@ -73,7 +73,7 @@ for ii=1:numel(obj.spec)
         %form which is shown to require less binary variables, see
         %literature. conjunctive form is then used for our offset algorithm
         %to deal with conjunctions, see bReachCulprit.m
-        obj.spec(ii).set=conjunctiveNormalForm(spec.set);
+        obj.spec(ii)=conjunctiveNormalForm(spec.set);
     end
 end
 all_steps = obj.T/obj.dt;

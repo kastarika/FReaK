@@ -113,7 +113,7 @@ pythonExecutablePath = char(pyenv().Executable);
 % Split the path into components
 [baseFolderPath, ~, ~] = fileparts(pythonExecutablePath);
 % Specify the new last part of the path
-newLastPart = 'pip';
+newLastPart = '/Scripts/pip3';
 % Construct the new path
 pipExecutablePath = fullfile(baseFolderPath, newLastPart);
 
