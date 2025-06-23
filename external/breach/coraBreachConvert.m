@@ -20,8 +20,7 @@ stl = replace(stl,'F','ev_');
 stl = replace(stl,'&','and');
 stl = replace(stl,'|','or');
 stl = replace(stl,'~','not ');
-
-for k=1:size(cora_stl.variables)
+for k=1:size(cora_stl.variables, 1)
    old = strcat(cora_stl.variables{k},'(?![0-9])');
    new = strcat(cora_stl.variables{k},'[t]');
    stl = regexprep(stl,old,new);

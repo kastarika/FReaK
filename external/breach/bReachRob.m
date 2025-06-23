@@ -12,6 +12,7 @@ end
 
 Bdata = BreachTraceSystem(vars');
 Bdata.AddTrace(trace);
+disp(coraSpec.set);
 stl=coraBreachConvert(coraSpec.set);
 phi = STL_Formula('phi',stl);
 
