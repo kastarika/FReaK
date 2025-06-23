@@ -8,12 +8,13 @@ steps = max_time / time_step;
 % Bounds
 lb = zeros(steps, input_dims);
 ub = ones(steps, input_dims);
+ub(:) = 100;
 
 % OSE parameters
 c = 0.1;
 omega = 0.2;
 CR = 0.8;
-max_iter = 700;
+max_iter = 100;
 level = 2;
 select_dims = [1];
 model = 'run_synth_benchmark2';  
