@@ -2,7 +2,7 @@ function traj_list = OSE_input(max_time, time_step, model, c, ro, lb, ub, omega,
 
     steps = max_time / time_step + 1;
     timestamps = (0:steps - 1)' * time_step;
-    init_inputs = ones(steps, input_dims);
+    init_inputs = ones(steps, input_dims) * 0.5;
     
     p = [];
     disp(timestamps);
@@ -47,8 +47,8 @@ function traj_list = OSE_input(max_time, time_step, model, c, ro, lb, ub, omega,
         % disp(closest_inputs);
         new_inputs = closest_inputs;
         % disp(new_inputs);
-        % delta = omega * tan(pi * (rand(size(closest_inputs)) - 0.5));
-        delta = omega * tan(pi * (rand(size(closest_inputs))));
+        delta = omega * tan(pi * (rand(size(closest_inputs)) - 0.5));
+        %delta = omega * tan(pi * (rand(size(closest_inputs))));
         mask = rand(size(closest_inputs)) < CR;
         new_inputs(mask) = closest_inputs(mask) + delta(mask);
         new_inputs = min(max(new_inputs, 0), 1);

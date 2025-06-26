@@ -1,8 +1,8 @@
-function traj_list = OSE(max_time, time_step, model, c, ro, lb, ub, omega, CR, max_iter, select_dims, input_dims)
+function traj_list = OSE_output(max_time, time_step, model, c, ro, lb, ub, omega, CR, max_iter, select_dims, input_dims)
 
     steps = max_time / time_step + 1;
     timestamps = (0:steps - 1)' * time_step;
-    init_inputs = zeros(steps, input_dims);
+    init_inputs = ones(steps, input_dims) * 0.5;
     
     p = [];
     disp(timestamps)
@@ -52,7 +52,9 @@ function traj_list = OSE(max_time, time_step, model, c, ro, lb, ub, omega, CR, m
         new_inputs = min(max(new_inputs, 0), 1);
 
         u = [timestamps, new_inputs];
-
+        disp(timestamps);
+        disp(new_inputs);
+        disp(new_inputs(:));
         [ta, new_outputs] = feval(model, p, u, T);
         %disp(new_outputs)
         traj_list{end+1} = {new_inputs, new_outputs};

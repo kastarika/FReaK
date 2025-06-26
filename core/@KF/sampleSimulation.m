@@ -94,7 +94,12 @@ if obj.resetStrat>=1
 end
 
 if rnd %default random simulations
-    sample = randPoint(obj.inputsInterval)';
+    % sample = randPoint(obj.inputsInterval)';
+    sample = obj.OSE.next_traj();
+    disp('sample obtained');
+    disp(size(sample));
+    disp(sample);
+    disp(obj.inputsInterval);
 end
 if simd %simulate sample if needed
     [x0,u]=getInputs(obj,sample);
@@ -207,6 +212,7 @@ if ~isempty(obj.U)
             timePoints = timePoints(1:end-1); %remove last time point, inputs are up to step k-1
             cpVal=newU(1:cp);
         end
+        disp(cpVal);
         u(:,i) = interp1(timePoints, cpVal, allTimePoints,obj.inputInterpolation,"extrap");
         newU = newU(cp+1:end); %skip to next input dimension
     end
