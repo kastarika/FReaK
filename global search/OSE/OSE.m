@@ -43,16 +43,16 @@ classdef OSE < handle
             % disp(first_row);
             input = obj.traj_list{obj.traj_idx}{1};
             % rest = input(2:end,:);
-            rest = input(1:obj.cp,:);
+            rest = input(1:end-1,:);
             rest_flat = rest(:);
             new_traj = [first_row; rest_flat];
 
             obj.traj_idx = obj.traj_idx + 1; % Update trajectory index for next call
             if obj.traj_idx > length(obj.traj_list)
-                obj.run_OSE();
+                obj.run_OSE(true);
             end
         end
-        disp(new_traj);
+        % disp(new_traj);
     end
 
     methods(Access=private)
@@ -90,7 +90,6 @@ classdef OSE < handle
             pause(0.1);
             Rphi = BreachRequirement(phi);
             Rphi.Eval(Bdata);
-            figure;
             BreachSamplesPlot(Rphi);
             drawnow;
             pause(0.1);
