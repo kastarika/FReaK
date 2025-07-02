@@ -24,7 +24,7 @@ classdef KF
 
     %------------- BEGIN CODE --------------
     properties
-        OSE
+        ose
         % model: name of the simulink model, blackbox function, OdeFcn or
         % ode (note: ode is a builtin class from matlab 2023b)
         % The blackbox model should be a function handle of the form

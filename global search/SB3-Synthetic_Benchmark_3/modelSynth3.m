@@ -1,4 +1,4 @@
-function model = modelSynth5()
+function model = modelSynth3()
 % model_AutoTransmission - model parameters for the Autotransmission benchmark
 %
 % Syntax:
@@ -13,20 +13,25 @@ function model = modelSynth5()
 %
 %------------------------------------------------------------------
     
-    model = KF('phi5_m1_vr01_k5_2');
-    model.R0 = interval([-1.3244;0.5447],[-1.3244;0.5447]); 
-    model.U = interval(0,1);
-    
-    model.T=24; 
+    model = KF('phi3_m2_vr001_k3_2');
+    model.R0 = interval(1.5806,1.5806); 
+    model.U = interval([0;0],[1;1]); 
+
+    model.T=30; 
     model.dt = 0.01;
-    model.ak.dt=3; %2.5
-    model.cp=[4];
-
-    model.nResets = 2;
-
+    model.ak.dt=1; %2.5
+    model.cp=[5 5];
     
-    x = stl('x',2);
-    eq = globally(finally(~((globally(x(1)>=9, interval(0,1)) | (globally(x(2)>=9, interval(1,5)) ))) ,interval(0,2)) , interval(0, 17));
+    model.nResets = 5;
+    % model.resetStrat = 1;
+    % model.rmRand = false;
+
+    x = stl('x',1);
+    eq = implies(finally(x(1) > 10, interval(6, 12)), globally(x(1) > -10, interval(18, 24)));
+    % eq = (F[6,12](x1 > 10)) => (G[18,24](x1 > -10));
+    % eq = '(ev_[6,12] (b_1[t]>10)) => (alw_[18,24] (b_1[t]>-10))';
+    % eq = implies(globally(x(1) >=250 & x(1) <=260,interval(1,1.5)),globally(x(1)<230|x(1)>240,interval(3,4)));
+
 %     eq = globally(x(1) < 120,interval(0,20));
 %         eq = finally(x(1) > 120,interval(0,20));
 %     eq = globally(x(2) < 4750,interval(0,10)) | globally(x(1)<50,interval(0,10));

@@ -95,14 +95,15 @@ end
 
 if rnd %default random simulations
     % sample = randPoint(obj.inputsInterval)';
-    sample = obj.OSE.next_traj();
+    sample = obj.ose.next_traj();
     disp('sample obtained');
-    disp(size(sample));
-    disp(sample);
-    disp(obj.inputsInterval);
+    % disp(size(sample));
+    % disp(sample);
+    % disp(obj.inputsInterval);
 end
 if simd %simulate sample if needed
     [x0,u]=getInputs(obj,sample);
+    disp(x0);
     %interpolate input in accordance with interpolation strategy defined
     tsim = (0:obj.dt:obj.T)'; %time points for interpolating input
     if ~isempty(u)
@@ -212,7 +213,7 @@ if ~isempty(obj.U)
             timePoints = timePoints(1:end-1); %remove last time point, inputs are up to step k-1
             cpVal=newU(1:cp);
         end
-        disp(cpVal);
+        % disp(cpVal);
         u(:,i) = interp1(timePoints, cpVal, allTimePoints,obj.inputInterpolation,"extrap");
         newU = newU(cp+1:end); %skip to next input dimension
     end

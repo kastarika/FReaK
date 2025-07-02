@@ -90,20 +90,25 @@ for run=1:obj.runs
             %if first iter, random or neighborhood training selected, critical trajectory is
             %repeated, or no viable soln found last iter, retrain with new xu else retrain with prev traj
             if trainIter==0 || obj.trainStrat>=1 || checkTrainsetRepeatedTraj(critX0,critU,trainset,obj.verb) || ~(curSoln.rob<inf)
-                [tsim,x,u,simTime] = sampleSimulation(obj,allData,perturb);
-                perturb=min(1,perturb+obj.sampPerturb); %increase perturbation
-                soln.sims = soln.sims+1;
-                soln.simTime = soln.simTime+simTime;
-                %check if random input falsifies system, and break if it does
-                [soln,falsified,robustness,Bdata,newBest_,~]=checkFalsification(soln,x,u,tsim,obj.spec,tcp,obj.inputInterpolation,obj.U,'reset simulation',obj.verb);
-                allData.X{end+1}=x; allData.XU{end+1}=u; allData.t{end+1}=tsim; allData.Rob=[allData.Rob;robustness];
-                if nargout>1;allData.koopModels{end+1}=[];end %store empty model as we are in reset
-                if newBest_; perturb=obj.sampPerturb; end %reset pertrubation if new best soln found
-                if falsified; break; end
-                xak = interp1(tsim,x,tak,obj.trajInterpolation); %define autokoopman trajectory points
+                % for iiii = 1:10
+                    [tsim,x,u,simTime] = sampleSimulation(obj,allData,perturb);
+                    % disp('input from sample simulation');
+                    % disp(u);
+                    perturb=min(1,perturb+obj.sampPerturb); %increase perturbation
+                    soln.sims = soln.sims+1;
+                    soln.simTime = soln.simTime+simTime;
+                    %check if random input falsifies system, and break if it does
+                    [soln,falsified,robustness,Bdata,newBest_,~]=checkFalsification(soln,x,u,tsim,obj.spec,tcp,obj.inputInterpolation,obj.U,'reset simulation',obj.verb);
+                    allData.X{end+1}=x; allData.XU{end+1}=u; allData.t{end+1}=tsim; allData.Rob=[allData.Rob;robustness];
+                    if nargout>1;allData.koopModels{end+1}=[];end %store empty model as we are in reset
+                    if newBest_; perturb=obj.sampPerturb; end %reset pertrubation if new best soln found
+                    if falsified; break; end
+                    xak = interp1(tsim,x,tak,obj.trajInterpolation); %define autokoopman trajectory points
+                    
             else
                 xak=interp1(tsim,critX,tak,obj.trajInterpolation); %pass x0 as full x to avoid simulation again
                 u=critU;
+               
             end
 
             %add trajectory to koopman trainset
@@ -111,14 +116,18 @@ for run=1:obj.runs
             trainset.X{end+1} = xak';
             trainset.XU{end+1} = u(:,2:end)';
             trainset.Rob{end+1} = robustness;
+            % disp('robustness of new ========= ' + string(robustness));
         end
+        % celldisp(trainset.XU);
 
         %run autokoopman and learn linearized model
         [koopModel,koopTime] = learnKoopModel(obj, trainset);
         soln.koopTime = soln.koopTime+koopTime;
+        % error('end');
         % compute reachable set for Koopman linearized model (if reachability is used)
         if obj.reach.on
             reachTime=tic;
+            % R = reachKoopman(obj,koopModel);
             try
                 R = reachKoopman(obj,koopModel);
             catch

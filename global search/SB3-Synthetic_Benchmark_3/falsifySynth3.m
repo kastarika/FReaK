@@ -2,12 +2,12 @@
 rng(0)
 pyrunfile("seed.py")
 
-kfModel = modelSynth5();
+kfModel = modelSynth3();
 plotVars = [1];
 
-ose = t5();
+ose = t3();
 kfModel.ose = ose;
-disp(class(kfModel.ose));
+% disp(class(kfModel.ose));
 % x = stl('x',3);
 % eq = implies(globally(x(2)<3000,interval(0,30)),globally(x(1)<35,interval(0,4)));
 % kfModel.spec = specification(eq,'logic');

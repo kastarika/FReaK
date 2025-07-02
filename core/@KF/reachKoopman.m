@@ -52,6 +52,11 @@ names = {}; for i = 1:n; names{i,1} = ['x',num2str(i,['%0',num2str(dig), '.f'])]
 
 if all(rad(R0) == 0)
     c = g(center(R0));
+    % disp('c');
+    % disp(c);
+    % disp('R0');
+    % disp(R0);
+
     R0 = polyZonotope(c,zeros(length(c),1),[],zeros(n,1));
 else
     tay = taylm(R0,tayOrder,names);
@@ -91,6 +96,8 @@ end
 % compute ouput set
 for i = 1:length(set)
     set{i} = project(set{i},1:n);
+    % disp(i);
+    % disp(set{i});
     zono{i} = zonotope(set{i});
 end
 

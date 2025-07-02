@@ -73,7 +73,7 @@ function sorted_traj = OSE_producer(obj, input_plot, output_plot, robust_plot)
     phi = STL_Formula('phi', 'alw_[0,19]((alw_[0,5](b_1[t] <= 20) or (ev_[0,5](b_2[t] >= 40))))');
     Rphi = BreachRequirement(phi);
     
-    % disp(Rphi.Eval(Bdata));
+    disp(Rphi.Eval(Bdata));
     if(robust_plot)
         BreachSamplesPlot(Rphi);
     end

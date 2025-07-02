@@ -204,7 +204,7 @@ for i=1:size(obj.U,1)
     lowerBound=[lowerBound;repmat(obj.U.inf(i),numU,1)];
     upperBound = [upperBound;repmat(obj.U.sup(i),numU,1)];
 end
-disp(lowerBound);
-disp(upperBound);
+% disp(lowerBound);
+% disp(upperBound);
 obj.inputsInterval = interval(lowerBound,upperBound);
 end

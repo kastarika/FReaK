@@ -2,10 +2,10 @@
 rng(0)
 pyrunfile("seed.py")
 
-kfModel = modelSynth5();
+kfModel = modelSynth2();
 plotVars = [1];
 
-ose = t5();
+ose = t2();
 kfModel.ose = ose;
 disp(class(kfModel.ose));
 % x = stl('x',3);

@@ -1,4 +1,4 @@
-function model = modelSynth5()
+function model = modelSynth4()
 % model_AutoTransmission - model parameters for the Autotransmission benchmark
 %
 % Syntax:
@@ -13,20 +13,19 @@ function model = modelSynth5()
 %
 %------------------------------------------------------------------
     
-    model = KF('phi5_m1_vr01_k5_2');
-    model.R0 = interval([-1.3244;0.5447],[-1.3244;0.5447]); 
-    model.U = interval(0,1);
-    
+    model = KF('phi4_m2_vr001_k5_3');
+    model.R0 = interval([2.597;14.902],[2.597;14.902]); 
+    model.U = interval([0;0],[1;1]); 
+
     model.T=24; 
     model.dt = 0.01;
     model.ak.dt=3; %2.5
-    model.cp=[4];
-
+    model.cp=[4 4];
+    
     model.nResets = 2;
 
-    
     x = stl('x',2);
-    eq = globally(finally(~((globally(x(1)>=9, interval(0,1)) | (globally(x(2)>=9, interval(1,5)) ))) ,interval(0,2)) , interval(0, 17));
+    eq = globally((globally(x(1)<=20, interval(0, 5))) | (finally(x(2)>=40, interval(0, 5))), interval(0, 19));
 %     eq = globally(x(1) < 120,interval(0,20));
 %         eq = finally(x(1) > 120,interval(0,20));
 %     eq = globally(x(2) < 4750,interval(0,10)) | globally(x(1)<50,interval(0,10));
