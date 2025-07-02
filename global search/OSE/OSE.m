@@ -23,10 +23,24 @@ classdef OSE < handle
             % exist to easily remind what properties are needed
         end
 
+        function run_OSE_input(obj)
+            sorted = true;
+
+            obj.OSE_input_producer();
+            obj.traj_idx = 1; % Initialize trajectory index
+
+            if(sorted)
+                obj.sort_traj(); % Sort trajectories if the sorted flag is true
+            end
+        end
+
+
         function run_OSE(obj, sorted)
             if(nargin < 2)
                 sorted = false; % Default to false if not provided
             end
+            
+            sorted = true;
 
             obj.OSE_producer();
             obj.traj_idx = 1; % Initialize trajectory index
@@ -43,12 +57,13 @@ classdef OSE < handle
             % disp(first_row);
             input = obj.traj_list{obj.traj_idx}{1};
             % rest = input(2:end,:);
-            rest = input(1:end-1,:);
+            rest = input(1:end,:);
             rest_flat = rest(:);
             new_traj = [first_row; rest_flat];
 
             obj.traj_idx = obj.traj_idx + 1; % Update trajectory index for next call
-            if obj.traj_idx > length(obj.traj_list)
+            % if obj.traj_idx > length(obj.traj_list)
+            if obj.traj_idx > 20
                 obj.run_OSE(true);
             end
         end
@@ -61,6 +76,13 @@ classdef OSE < handle
             obj.traj_list = OSE_output(obj.max_time, obj.time_step, obj.simu_name, ...
                 obj.c, obj.ro, obj.lb, obj.ub, obj.omega, obj.CR, ...
                 obj.max_iter, obj.select_dims, obj.input_dims);
+            disp(size(obj.traj_list));
+        end
+        function OSE_input_producer(obj)
+            obj.traj_list = OSE_input(obj.max_time, obj.time_step, obj.simu_name, ...
+                obj.c, obj.ro, obj.lb, obj.ub, obj.omega, obj.CR, ...
+                obj.max_iter, obj.select_dims, obj.input_dims);
+            disp(size(obj.traj_list));
         end
         
         function sort_traj(obj)

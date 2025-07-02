@@ -1,16 +1,16 @@
-function traj_list = OSE_input(max_time, time_step, model, c, ro, lb, ub, omega, CR, max_iter, select_dims, input_dims)
+function traj_list = OSE_input(max_time, time_step, simu_name, c, ro, lb, ub, omega, CR, max_iter, select_dims, input_dims)
 
     steps = max_time / time_step + 1;
     timestamps = (0:steps - 1)' * time_step;
     init_inputs = ones(steps, input_dims) * 0.5;
     
     p = [];
-    disp(timestamps);
-    disp(init_inputs);
+    % disp(timestamps);
+    % disp(init_inputs);
     u = [timestamps, init_inputs];
     T = max_time;
     
-    [ta, init_outputs] = feval(model, p, u, T);
+    [ta, init_outputs] = runSimu(simu_name, T, p, u);
     traj_list = {{init_inputs, init_outputs}};
 
     for iter = 1:max_iter
@@ -55,7 +55,7 @@ function traj_list = OSE_input(max_time, time_step, model, c, ro, lb, ub, omega,
 
         u = [timestamps, new_inputs];
 
-        [ta, new_outputs] = feval(model, p, u, T);
+        [ta, new_outputs] = runSimu(simu_name, T, p, u);
         %disp(new_outputs)
         traj_list{end+1} = {new_inputs, new_outputs};
     end

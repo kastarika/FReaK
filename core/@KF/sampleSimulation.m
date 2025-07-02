@@ -94,8 +94,8 @@ if obj.resetStrat>=1
 end
 
 if rnd %default random simulations
-    sample = randPoint(obj.inputsInterval)';
-    % sample = obj.ose.next_traj();
+    % sample = randPoint(obj.inputsInterval)';
+    sample = obj.ose.next_traj();
     disp('sample obtained');
     % disp(size(sample));
     % disp(sample);
