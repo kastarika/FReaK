@@ -20,12 +20,12 @@ function model = modelSynth2()
     model.T=30; 
     model.dt = 0.01;
     model.ak.dt=3; %2.5
-    model.cp=[5 5];
+    model.cp=[5];
     
     model.nResets = 2;
 
     x = stl('x',1);
-    eq = globall(x(1) > 90 | finally(x(1) < 50, interval(0,6)), interval(0,18));
+    eq = globally(x(1) > 90 | finally(x(1) < 50, interval(0,6)), interval(0,18));
 %     eq = globally(x(1) < 120,interval(0,20));
 %         eq = finally(x(1) > 120,interval(0,20));
 %     eq = globally(x(2) < 4750,interval(0,10)) | globally(x(1)<50,interval(0,10));

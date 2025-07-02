@@ -16,6 +16,7 @@ classdef OSE < handle
         traj_list
         traj_idx
         stl_req
+        cp
     end
     methods
         function obj = OSE(max_time, time_step, simu_name, c, ro, lb, ub, omega, CR, max_iter, select_dims, input_dims, stl_req)
@@ -42,7 +43,7 @@ classdef OSE < handle
             % disp(first_row);
             input = obj.traj_list{obj.traj_idx}{1};
             % rest = input(2:end,:);
-            rest = input(1:end-1,:);
+            rest = input(1:obj.cp,:);
             rest_flat = rest(:);
             new_traj = [first_row; rest_flat];
 
