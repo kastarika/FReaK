@@ -19,10 +19,10 @@ function model = modelSynth2()
 
     model.T=30; 
     model.dt = 0.01;
-    model.ak.dt=1.5; %2.5
+    model.ak.dt=1; %2.5
     model.cp=[5];
     
-    model.nResets = 5;
+    model.nResets = 4;
 
     x = stl('x',1);
     eq = globally(x(1) > 90 | finally(x(1) < 50, interval(0,6)), interval(0,18));
