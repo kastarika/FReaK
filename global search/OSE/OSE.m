@@ -40,7 +40,7 @@ classdef OSE < handle
                 sorted = false; % Default to false if not provided
             end
             
-            sorted = true;
+            sorted = false;
 
             obj.OSE_producer();
             obj.traj_idx = 1; % Initialize trajectory index
@@ -63,7 +63,7 @@ classdef OSE < handle
 
             obj.traj_idx = obj.traj_idx + 1; % Update trajectory index for next call
             % if obj.traj_idx > length(obj.traj_list)
-            if obj.traj_idx > 60
+            if obj.traj_idx > length(obj.traj_list)
                 obj.run_OSE(true);
             end
         end
@@ -92,12 +92,12 @@ classdef OSE < handle
             figure;
             Bdata.PlotSignals();
             drawnow;
-            pause(0.1);
+            % pause(0.1);
             Rphi = BreachRequirement(phi);
             Rphi.Eval(Bdata);
             BreachSamplesPlot(Rphi);
             drawnow;
-            pause(0.1);
+            % pause(0.1);
         end
     end
 

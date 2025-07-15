@@ -21,8 +21,15 @@ function model = modelSynth2()
     model.dt = 0.01;
     model.ak.dt=1; %2.5
     model.cp=[5];
+
+    % model.reach.on = false;
     
-    model.nResets = 4;
+    model.nResets = 3;
+    % model.rmRand = true;
+    model.trainStrat = 2;
+    model.resetStrat = 0;
+    model.sampPerturb = 0.1;
+
 
     x = stl('x',1);
     eq = globally(x(1) > 90 | finally(x(1) < 50, interval(0,6)), interval(0,18));

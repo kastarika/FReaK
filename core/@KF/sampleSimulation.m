@@ -79,7 +79,10 @@ if obj.resetStrat>=1
                     bestSample=allInputsSamples(bestIdx,:)';
                     sample=getDispSampleXU(obj,bestSample,perturb);
                 end
-                rnd=false;
+                % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % 
+                if rand() < 0.8
+                    rnd = false;
+                end
             end
             if obj.resetStrat==2
                 WarnState = warning('off', 'MATLAB:nearlySingularMatrix');

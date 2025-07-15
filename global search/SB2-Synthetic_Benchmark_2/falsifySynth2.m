@@ -1,5 +1,5 @@
 % initialize seeds
-rng(0)
+rng(1234)
 pyrunfile("seed.py")
 
 kfModel = modelSynth2();

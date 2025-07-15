@@ -12,25 +12,25 @@ for i = 1:length(ose.traj_list)
 end
 phi = STL_Formula('phi', ose.stl_req);
 robustness_vals = Bdata.GetRobustSat(phi);
-disp(robustness_vals);
+% disp(robustness_vals);
 [~, idx] = sort(robustness_vals);
-disp('best from sort')
-celldisp(ose.traj_list(idx(1)));
+% % disp('best from sort')
+% celldisp(ose.traj_list(idx(1)));
 ose.traj_list = ose.traj_list(idx);
 
 
 pert_traj = [];
 n = length(ose.traj_list{1}(1));
 
-CR = 0.7;
+CR = 0.8;
 
 simu_name = 'phi2_m1_vr01_k2_2';
 
 for k = 1:10
-    newBdata = [];
     newBdata = BreachTraceSystem(b_vars);
-    for i = 1:20
-        for j = 1:30
+    for i = 1:40
+        for j = 1:4
+            disp([i, j]);
             jj = ose.traj_list{i};
             closest_inputs = jj{1};
             new_inputs = closest_inputs;
@@ -62,7 +62,10 @@ for k = 1:10
     Rphi = BreachRequirement(phi);
     Rphi.Eval(newBdata);
     BreachSamplesPlot(Rphi);
-
+    drawnow();
+    pause(0.1);
     ose.traj_list = pert_traj;
     ose.sort_traj();
+    
+    disp('end');
 end
