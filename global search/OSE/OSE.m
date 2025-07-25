@@ -44,20 +44,20 @@ classdef OSE < handle
 
             obj.OSE_producer();
             obj.traj_idx = 1; % Initialize trajectory index
-
+            obj.visualize_ose();
             if(sorted)
                 obj.sort_traj(); % Sort trajectories if the sorted flag is true
             end
         end
         
-        function new_traj = next_traj(obj)
+        function new_traj = next_traj(obj, cp)
             output = obj.traj_list{obj.traj_idx}{2};
             first_row = output(1, :)';
             % disp(output);
             % disp(first_row);
             input = obj.traj_list{obj.traj_idx}{1};
             % rest = input(2:end,:);
-            rest = input(1:end,:);
+            rest = input(1:cp,:);
             rest_flat = rest(:);
             new_traj = [first_row; rest_flat];
 
@@ -109,6 +109,7 @@ classdef OSE < handle
                 obj.max_iter, obj.select_dims, obj.input_dims);
             disp(size(obj.traj_list));
         end
+
         function OSE_input_producer(obj)
             obj.traj_list = OSE_input(obj.max_time, obj.time_step, obj.simu_name, ...
                 obj.c, obj.ro, obj.lb, obj.ub, obj.omega, obj.CR, ...
@@ -116,6 +117,36 @@ classdef OSE < handle
             disp(size(obj.traj_list));
         end
         
-        
+        function visualize_ose(obj)
+            b_vars = arrayfun(@(i) sprintf('b_%d', i), 1:obj.output_dims, 'UniformOutput', false);
+            Bdata = BreachTraceSystem(b_vars);
+            
+            for i = 1:length(obj.traj_list)
+                traj = obj.traj_list{i}{2};
+                time = 0:1:length(traj)-1;
+                Bdata.AddTrace([time' traj]);
+            end
+            phi = STL_Formula('phi', obj.stl_req);
+            % robustness_vals = Bdata.GetRobustSat(phi);
+            % disp(robustness_vals);
+            % [~, idx] = sort(robustness_vals);
+            % disp('best from sort')
+            % celldisp(obj.traj_list(idx(1)));
+            % obj.traj_list = obj.traj_list(idx);
+            % disp('best after sort');
+            % disp(idx);
+            % celldisp(obj.traj_list(1));
+            
+
+            figure;
+            Bdata.PlotSignals();
+            drawnow;
+            % pause(0.1);
+            Rphi = BreachRequirement(phi);
+            Rphi.Eval(Bdata);
+            BreachSamplesPlot(Rphi);
+            drawnow;
+        end
+
     end
 end

@@ -1,7 +1,8 @@
 function [tout, yout] = run_synth_benchmark1(~, u, T)
     assignin('base','u',u);
     assignin('base','T',T);
-    
+    disp(u);
+    disp('123213');
     result = sim('phi1_m2_vr001_k5_2', ...
         'StopTime', 'T', ...
         'LoadExternalInput', 'on', 'ExternalInput', 'u', ...

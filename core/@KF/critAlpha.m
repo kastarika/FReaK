@@ -68,6 +68,7 @@ function specSolns = critAlpha(obj,R,koopModel,specSolns)
 % loop over all specifications
 spec=obj.spec;
 for i = 1:size(spec,1)
+    disp('1');
     rob = inf; %initial robustness value
     setCrit=[];
     u=[]; %initialize empty list to store critical inputs
@@ -120,6 +121,7 @@ for i = 1:size(spec,1)
         end
 
     elseif strcmp(spec(i,1).type,'logic')
+        disp('2');
         %get prev solns
         prevSpecSol = specSolns(obj.spec(i,1));
         %setup and run solver
@@ -146,6 +148,7 @@ for i = 1:size(spec,1)
         %setup problem from scratch if number of generators is no longer
         %the same.
         if obj.reach.on
+            disp('3');
             if size(Sys.alpha,2) ~= size(generators(R.zono{end}),2)
                 Sys=KoopSolver(obj.T,obj.ak.dt,obj.solver.timePoints,obj.R0,obj.U);
                 Sys.normalize = obj.solver.normalize; %set normalization setting
@@ -156,7 +159,7 @@ for i = 1:size(spec,1)
                 Sys = setupAlpha(Sys);
             end
         end
-
+        disp('4');
         %if auto contraints, add constraints for critical times and
         %corresponding predicates, also check if critTimes have been
         %defined
@@ -207,7 +210,7 @@ for i = 1:size(spec,1)
                 Sys=setupStl(Sys,~obj.solver.useOptimizer,false); %encode stl using milp
             end
         end
-
+        disp('5');
         %setup evolution of system using reachable sets or direct encoding
         if obj.reach.on
             Sys.reachZonos=R.zono; %update reach z onos with new
@@ -218,14 +221,16 @@ for i = 1:size(spec,1)
             Sys.g=koopModel.g;
             Sys=setupDynamics(Sys);
         end
+        disp('6');
 
         %setup optimizer object
         if obj.solver.useOptimizer
             Sys = setupOptimizer(Sys,obj.solver.opts);
         end
+        disp('7');
         specSoln.KoopSolver=Sys; %store KoopSolver object with setup optimizer
         Sys=optimize(Sys,obj.solver.opts);
-
+        disp('8');
         %get results
         rob = value(Sys.Pstl);
         alpha = value(Sys.alpha);

@@ -39,9 +39,9 @@ function [tout, yout,xFinal] = runSimulink(model_name, T, x0, u)
     simIn = Simulink.SimulationInput(model_name);
     
     % assign initial state
-    % if ~isempty(x0)
-    %     simIn = simIn.setInitialState(x0);
-    % end
+    if ~isempty(x0)
+        simIn = simIn.setInitialState(x0);
+    end
 
     % Configure input if the model has inputs
     if ~isempty(u) && ~isempty(find_system(model_name, 'BlockType', 'Inport'))

@@ -2,12 +2,12 @@
 rng(0)
 pyrunfile("seed.py")
 
-kfModel = modelSynth4();
+kfModel = modelSynth1();
 plotVars = [1];
 
-ose = t4();
+ose = t1();
 kfModel.ose = ose;
-disp(class(kfModel.ose));
+% disp(class(kfModel.ose));
 % x = stl('x',3);
 % eq = implies(globally(x(2)<3000,interval(0,30)),globally(x(1)<35,interval(0,4)));
 % kfModel.spec = specification(eq,'logic');
@@ -28,4 +28,4 @@ end
 % visualizeTrain(allData,kfModel.ak.dt,plotVars,'Speed','Angular velocity')
 %settings for figure
 % figure_settings(gcf);
-% export_fig training.pdf
+% export_fig training.pdfs

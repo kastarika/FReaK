@@ -98,7 +98,7 @@ end
 
 if rnd %default random simulations
     % sample = randPoint(obj.inputsInterval)';
-    sample = obj.ose.next_traj();
+    sample = obj.ose.next_traj(obj.cp(:,1));
     disp('sample obtained');
     % disp(size(sample));
     % disp(sample);
@@ -106,7 +106,7 @@ if rnd %default random simulations
 end
 if simd %simulate sample if needed
     [x0,u]=getInputs(obj,sample);
-    disp(x0);
+    % disp(u);
     %interpolate input in accordance with interpolation strategy defined
     tsim = (0:obj.dt:obj.T)'; %time points for interpolating input
     if ~isempty(u)
@@ -204,6 +204,7 @@ if ~isempty(obj.U)
     allTimePoints=linspace(0,obj.T,allSteps+1)';
 
     newU = sample(dim(obj.R0)+1:end);
+    % disp(numel(newU));
     assert(numel(newU)==sum(obj.cp),'Number of inputs does not match with generated samples, check for errors')
 
     for i=1:length(obj.cp)

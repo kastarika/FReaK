@@ -139,10 +139,12 @@ for run=1:obj.runs
         else
             R=[];
         end
+        disp('out1');
         % determine most critical reachable set and specification
         %         try
         optimTime=tic;
         specSolns = critAlpha(obj,R,koopModel,specSolns);
+        disp('out2');
         soln.optimTime=soln.optimTime+toc(optimTime);
         %         catch
         %             vprintf(obj.verb,2,"error encountered whilst setup/solving, resetting training data \n")
