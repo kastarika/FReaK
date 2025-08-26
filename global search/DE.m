@@ -19,6 +19,8 @@ classdef DE < handle
         falsified_file_name
         best_traj
         best_rob
+        init
+        pop
     end
     
     methods
@@ -42,6 +44,7 @@ classdef DE < handle
             obj.falsified_file_name = [simu_name '_falsified_traj_' timestamp '.txt'];
             disp(obj.falsified_file_name);
             obj.best_rob = inf;
+            obj.init = false;
         end
 
 
@@ -72,6 +75,7 @@ classdef DE < handle
             obj.traj_idx = obj.traj_idx + 1;
             if obj.traj_idx > length(obj.traj_list)
                 obj.run_DE(true);
+                disp('new population');
             end
         end
 
@@ -108,12 +112,12 @@ classdef DE < handle
         function DE_producer(obj)
             % Initialize population
             dim = obj.select_dims * obj.cp;
-            disp(dim);
-            obj.traj_list = cell(obj.population_size, 1);
-            disp(obj.population_size);
-            pop = rand(obj.population_size, dim) .* (obj.ub - obj.lb)' + obj.lb';
-            obj.best_traj = rand(obj.cp * obj.select_dims) * (obj.ub - obj.lb) + obj.lb;
-
+            if ~obj.init
+                obj.traj_list = cell(obj.population_size, 1);
+                obj.pop = rand(obj.population_size, dim) .* (obj.ub - obj.lb)' + obj.lb';
+                obj.best_traj = rand(obj.cp * obj.select_dims) * (obj.ub - obj.lb) + obj.lb;
+                obj.init = true;
+            end
             % obj.visualize_de();
             for gen = 1:obj.generations
                 for i = 1:obj.population_size
@@ -123,29 +127,29 @@ classdef DE < handle
                     while any(idxs == i)
                         idxs = randperm(obj.population_size, 3);
                     end
-                    % x1 = pop(idxs(1), :);
+                    % x1 = obj.pop(idxs(1), :);
                     x1 = obj.best_traj;
-                    x2 = pop(idxs(2), :);
-                    x3 = pop(idxs(3), :);
+                    x2 = obj.pop(idxs(2), :);
+                    x3 = obj.pop(idxs(3), :);
                     % disp(size(x1))
                     % disp(size(x2));
                     mutant = x1 + obj.F * (x2 - x3);
 
                     % Crossover
-                    trial = pop(i, :);
+                    trial = obj.pop(i, :);
                     jrand = randi(dim);
                     for j = 1:dim
                         if rand < obj.CR || j == jrand
                             trial(j) = mutant(j);
                         end
                     end
-                    % trial = min(max(trial, -3), 4);
+                    % trial = min(max(trial, 0), 1);
                     % Selection
                     f_trial = obj.evaluate_trajectory(trial);
-                    f_target = obj.evaluate_trajectory(pop(i, :));
+                    f_target = obj.evaluate_trajectory(obj.pop(i, :));
                     if f_trial < f_target
                         disp('yes');
-                        pop(i, :) = trial;
+                        obj.pop(i, :) = trial;
                         if(f_trial < obj.best_rob)
                             obj.best_traj = trial;
                         end
@@ -154,7 +158,8 @@ classdef DE < handle
                 
                 
                 for i = 1:obj.population_size
-                    input = reshape(pop(i, :), [], obj.input_dims);
+                    
+                    input = reshape(obj.pop(i, :), [], obj.input_dims);
                     output = obj.simulate(input);
                     obj.traj_list{i} = {input, output};
                     % disp(i);
@@ -257,9 +262,9 @@ classdef DE < handle
             for k = 1:length(violating_trajs)
                 traj = violating_trajs{k};
                 input = traj{1};
-                if any(input > 1 | input < 0)
-                    continue
-                end
+                % if any(input > 1 | input < 0)
+                %     continue
+                % end
                 output = traj{2};
                 
                 fprintf(fileID, 'Trajectory #%d\n', violating_idx(k));

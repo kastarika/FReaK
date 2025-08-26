@@ -1,4 +1,4 @@
-function [tout, yout, u, simTime] = sampleSimulation(obj,varargin)
+function [tout, yout, u, simTime, x0] = sampleSimulation(obj,varargin)
 % sampleSimulation - Perform a random simulation for a Koopman Falsification object.
 %
 % Syntax:
@@ -37,7 +37,7 @@ function [tout, yout, u, simTime] = sampleSimulation(obj,varargin)
 % Last update: 4-December-2023
 % Last revision: ---
 %------------- BEGIN CODE --------------
-
+x0 = 0;
 if isempty(obj.inputsInterval)
     obj=initialize(obj);
     vprintf(obj.verb,1,'Initiallizing object to setup control points and input intervals\n')
@@ -97,8 +97,8 @@ if obj.resetStrat>=1
 end
 
 if rnd %default random simulations
-    % sample = randPoint(obj.inputsInterval)';
-    sample = obj.ose.next_traj(obj.cp(:,1));
+    sample = randPoint(obj.inputsInterval)';
+    % sample = obj.ose.next_traj(obj.cp(:,1));
     disp('sample obtained');
     % disp(size(sample));
     % disp(sample);

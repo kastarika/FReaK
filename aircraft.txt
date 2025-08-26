@@ -30888,3 +30888,16 @@ Caused by:
         Error using <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('run_synth_benchmark1', 'C:\Users\Student\Documents\GitHub\FReaK\New Benchmarks\SB1-Synthetic_Benchmark_1\run_synth_benchmark1.m', 5)" style="font-weight:bold">run_synth_benchmark1</a> (<a href="matlab: opentoline('C:\Users\Student\Documents\GitHub\FReaK\New Benchmarks\SB1-Synthetic_Benchmark_1\run_synth_benchmark1.m',5,0)">line 5</a>)
         Unable to find block 'MLFB'. - <a href="matlab:interactive_actions_helper.displayMStack([struct('file','C:\Users\Student\Documents\GitHub\FReaK\New Benchmarks\SB1-Synthetic_Benchmark_1\run_synth_benchmark1.m','line',5,'name','run_synth_benchmark1'),struct('file','C:\Users\Student\Documents\GitHub\FReaK\global search\SB2-Synthetic_Benchmark_2\OSE.m','line',13,'name','OSE'),struct('file','C:\Users\Student\Documents\GitHub\FReaK\global search\SB1-Synthetic_Benchmark_1\test_OSE1.m','line',24,'name','test_OSE1')]);">Show complete stack trace</a>
 } 
+--------------------------------------------------------
+{Unable to set the 'set' property of class '<a href="matlab:doc specification">specification</a>' because it is read-only.
+
+Error in <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('KF/initialize', '/Users/kastarika/Documents/GitHub/FReaK/core/@KF/initialize.m', 76)" style="font-weight:bold">KF/initialize</a> (<a href="matlab: opentoline('/Users/kastarika/Documents/GitHub/FReaK/core/@KF/initialize.m',76,0)">line 76</a>)
+        obj.spec(ii).set=conjunctiveNormalForm(spec.set);
+        ^^^^^^^^^^^^^^^^
+Error in <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('KF/falsify', '/Users/kastarika/Documents/GitHub/FReaK/core/@KF/falsify.m', 50)" style="font-weight:bold">KF/falsify</a> (<a href="matlab: opentoline('/Users/kastarika/Documents/GitHub/FReaK/core/@KF/falsify.m',50,0)">line 50</a>)
+    [obj,trainset,soln,specSolns,allData] = initialize(obj);
+                                            ^^^^^^^^^^^^^^^
+Error in <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('falsifyAircraftODE', '/Users/kastarika/Documents/GitHub/FReaK/examples/tests/falsifyAircraftODE.m', 25)" style="font-weight:bold">falsifyAircraftODE</a> (<a href="matlab: opentoline('/Users/kastarika/Documents/GitHub/FReaK/examples/tests/falsifyAircraftODE.m',25,0)">line 25</a>)
+    kfSolns = falsify(kfModel);
+              ^^^^^^^^^^^^^^^^
+} 

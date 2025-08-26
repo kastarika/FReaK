@@ -62,6 +62,8 @@ classdef OSE < handle
             new_traj = [first_row; rest_flat];
 
             obj.traj_idx = obj.traj_idx + 1; % Update trajectory index for next call
+            fprintf('using trajectory %d / %d \n', obj.traj_idx, length(obj.traj_list));
+            disp('1');
             % if obj.traj_idx > length(obj.traj_list)
             if obj.traj_idx > length(obj.traj_list)
                 obj.run_OSE(true);

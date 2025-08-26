@@ -15,7 +15,7 @@ function model = modelPowertrain2()
 
 model = KF(@runPowertrain);
 model.R0 = interval(0,0);
-model.U = interval([0;900],[61.1;1100]);
+model.U = interval([0;900],[61.1;1099.99]);
 
 model.T=50;
 model.ak.dt= 5;

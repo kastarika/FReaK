@@ -9,8 +9,8 @@ function ose = tCC()
     % Bounds
     ose.lb = zeros(ose.max_time + 1, ose.output_dims);
     ose.ub = ones(ose.max_time + 1, ose.output_dims);
-    ose.lb(:) = -30;
-    ose.ub(:) = 30;
+    % ose.lb(:) = -30;
+    % ose.ub(:) = 30;
     
     % OSE parameters
     ose.c = 0.2;

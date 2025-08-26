@@ -17,17 +17,17 @@ function model = modelSynth2()
     model.R0 = interval(10.4352, 10.4352); 
     model.U = interval(0,1); 
 
-    model.T=30; 
+    model.T=24; 
     model.dt = 0.01;
-    model.ak.dt=1; %2.5
-    model.cp=[5];
+    model.ak.dt=3; %2.5
+    model.cp=[4];
 
     % model.reach.on = false;
     
-    model.nResets = 3;
+    model.nResets = 5;
     % model.rmRand = true;
     model.trainStrat = 2;
-    model.resetStrat = 0;
+    model.resetStrat = 1;
     model.sampPerturb = 0.1;
 
 

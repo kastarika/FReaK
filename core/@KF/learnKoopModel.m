@@ -61,14 +61,26 @@ koopTime=toc;
 %TODO: remove need for creating file by returning A,B,u,w functions
 %from python file.
 load("autokoopman_model.mat", "A","B","u","w")
+% disp('koopman input')
+% disp(w)
+% disp(size(w))
+% keyboard
 
 % create observables function
 n = dim(obj.R0); %number of variables
+% disp(size(w))
+% disp(size(obj.ak.nObs))
+% disp(size(u))
 g_ = @(x) sqrt(2/obj.ak.nObs)*cos(w*x + u');
+% disp(g_)
+% keyboard
 g = @(x) [x; g_(x)];
+% disp(g)
+
 xSym = sym('x',[n,1]);
 g = g(xSym);
-
+% disp(g)
+% keyboard
 % save observables in function
 g = matlabFunction(g,'Vars',{xSym});
 

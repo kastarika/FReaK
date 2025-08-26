@@ -1,5 +1,6 @@
-max_time = 24;
-time_step = 6;
+function ose = run_de()
+max_time = 100;
+time_step = 5;
 % simu_name = 'phi1_m2_vr001_k5_2';
 simu_name = 'phi2_m1_vr01_k2_2';
 % simu_name = 'phi3_m2_vr001_k3_2'; 
@@ -7,14 +8,14 @@ simu_name = 'phi2_m1_vr01_k2_2';
 % simu_name = 'phi5_m1_vr01_k5_2'; 
 % simu_name = 'cars.mdl';
 population_size = 50;
-generations = 100;
-F = 0.9;
-% F = 1.2;
+generations = 1;
+% F = 0.9;
+F = 1.2;
 CR = 0.8;
 input_dims = 1;
 output_dims = 1;
 % select dims in input
-select_dims = 1;
+select_dims = input_dims;
 lb = 0;
 ub = 1;
 % stl_req = '(alw_[0,24](b_1[t]<20))';
@@ -29,8 +30,9 @@ stl_req = 'alw_[0,18] (b_1[t] > 90 or (ev_[0,6] (b_1[t] < 50)))';
 de = DE(max_time, time_step, simu_name, population_size, generations, ...
                 F, CR, input_dims, output_dims, ...
                 select_dims, lb, ub, stl_req);
-% de.cp = 21; % number of control points
-de.cp = 5;
+de.cp = 21; % number of control points
+% de.cp = 5;
 de.run_DE(true);
-
-traj = de.next_traj(de.cp); % Get next trajectory
+ose = de;
+%traj = de.next_traj(de.cp); % Get next trajectory
+end

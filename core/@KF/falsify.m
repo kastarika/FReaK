@@ -34,6 +34,7 @@ function [solns,allDatas] = falsify(obj,varargin)
 % Last revision: ---
 
 %------------- BEGIN CODE --------------
+x0 = 0;
 solns=cell(1,obj.runs);
 allDatas=cell(1,obj.runs);
 %initialize progress bar
@@ -91,7 +92,7 @@ for run=1:obj.runs
             %repeated, or no viable soln found last iter, retrain with new xu else retrain with prev traj
             if trainIter==0 || obj.trainStrat>=1 || checkTrainsetRepeatedTraj(critX0,critU,trainset,obj.verb) || ~(curSoln.rob<inf)
                 % for iiii = 1:10
-                    [tsim,x,u,simTime] = sampleSimulation(obj,allData,perturb);
+                    [tsim,x,u,simTime, x0] = sampleSimulation(obj,allData,perturb);
                     % disp('input from sample simulation');
                     % disp(u);
                     perturb=min(1,perturb+obj.sampPerturb); %increase perturbation
@@ -122,6 +123,9 @@ for run=1:obj.runs
 
         %run autokoopman and learn linearized model
         [koopModel,koopTime] = learnKoopModel(obj, trainset);
+        disp(trainset)
+        disp(koopModel)
+        keyboard;
         soln.koopTime = soln.koopTime+koopTime;
         % error('end');
         % compute reachable set for Koopman linearized model (if reachability is used)
@@ -139,12 +143,18 @@ for run=1:obj.runs
         else
             R=[];
         end
-        disp('out1');
+        % disp('out1');
         % determine most critical reachable set and specification
         %         try
         optimTime=tic;
+        
+        
         specSolns = critAlpha(obj,R,koopModel,specSolns);
-        disp('out2');
+        
+
+        
+
+        % disp('out2');
         soln.optimTime=soln.optimTime+toc(optimTime);
         %         catch
         %             vprintf(obj.verb,2,"error encountered whilst setup/solving, resetting training data \n")
@@ -157,6 +167,30 @@ for run=1:obj.runs
         keys = specSolns.keys('cell');
         critSpec=keys{minIndex};
         curSoln=specSolns(critSpec);
+
+        
+
+        rob_vec = cell2mat(trainset.Rob);
+
+        % Find index of minimum robustness
+        [~, idx_min] = min(rob_vec);
+        
+        % Extract corresponding XU
+        XU_min = trainset.XU{idx_min};
+        disp(size(curSoln.u))
+        % keyboard;
+        koopModel.x0 = x0;
+        koopModel.N = obj.cp(1) + 1;
+        koopModel.U = XU_min;
+        % disp(koopModel.g(x0))
+        disp(koopModel)
+        disp(obj.cp)
+        save('testkoopModel', 'koopModel');
+        % there is cp + 1 inputs. get x0 and do cp steps with koopman
+        keyboard;
+        
+        % disp(curSoln.x)
+        % keyboard;
 
         % this section check if critical trajectory is falsifying. If not, it also offsets if neccassary
         if curSoln.rob~=inf %found some solution
@@ -273,12 +307,19 @@ for run=1:obj.runs
     %remove simulations bar
     if obj.verb==1; fprintf(reverseSimStr); end
 
+    fid = fopen('reparchresult.txt', 'a');
+
     LogicalStr = {'No', 'Yes'};
     vprintf(obj.verb,1,'<-------------------------------------------------------> \n')
     vprintf(obj.verb,1,"Run: %d/%d \n",run,obj.runs)
     vprintf(obj.verb,1,"Falsified: %s \n",LogicalStr{soln.falsified+1})
     vprintf(obj.verb,1,"number of simulations %d \n",soln.sims)
     vprintf(obj.verb,1,"Time taken %.2f seconds\n",soln.runtime)
+    fprintf(fid ,'<-------------------------------------------------------> \n')
+    fprintf(fid ,"Run: %d/%d \n",run,obj.runs)
+    fprintf(fid ,"Falsified: %s \n",LogicalStr{soln.falsified+1})
+    fprintf(fid ,"number of simulations %d \n",soln.sims)
+    fprintf(fid ,"Time taken %.2f seconds\n",soln.runtime)
     %store soln struct for this run
     solns{run}=soln;
     allDatas{run}=allData;

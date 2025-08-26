@@ -23,6 +23,10 @@ function model = modelSynth5()
     model.cp=[4];
 
     model.nResets = 2;
+    % model.ak.rank=[1,12,3];
+
+    model.resetStrat=1;
+    model.trainStrat=2;
 
     
     x = stl('x',2);

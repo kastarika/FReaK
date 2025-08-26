@@ -1,0 +1,355 @@
+now starting benchmark CC4 -----------------
+now starting benchmark CC4 -----------------
+<-------------------------------------------------------> 
+Run: 1/1 
+Falsified: No 
+number of simulations 202 
+Time taken 185.99 seconds
+now starting benchmark CC4 -----------------
+<-------------------------------------------------------> 
+Run: 1/1 
+Falsified: No 
+number of simulations 301 
+Time taken 352.63 seconds
+<-------------------------------------------------------> 
+Run: 1/1 
+Falsified: No 
+number of simulations 302 
+Time taken 391.19 seconds
+<-------------------------------------------------------> 
+Run: 1/1 
+Falsified: Yes 
+number of simulations 137 
+Time taken 143.18 seconds
+now starting benchmark CC4 -----------------
+<-------------------------------------------------------> 
+Run: 1/1 
+Falsified: No 
+number of simulations 301 
+Time taken 355.39 seconds
+now starting benchmark (NN 0.005 0.03) -----------------
+<-------------------------------------------------------> 
+Run: 1/1 
+Falsified: Yes 
+number of simulations 1 
+Time taken 1.07 seconds
+<-------------------------------------------------------> 
+Run: 1/1 
+Falsified: Yes 
+number of simulations 1 
+Time taken 0.96 seconds
+now starting benchmark (NN 0.005 0.03) -----------------
+<-------------------------------------------------------> 
+Run: 1/1 
+Falsified: Yes 
+number of simulations 1 
+Time taken 0.68 seconds
+<-------------------------------------------------------> 
+Run: 1/1 
+Falsified: Yes 
+number of simulations 1 
+Time taken 0.67 seconds
+now starting benchmark (NN 0.005 0.04) -----------------
+<-------------------------------------------------------> 
+Run: 1/1 
+Falsified: Yes 
+number of simulations 1 
+Time taken 0.66 seconds
+now starting benchmark (NN 0.005 0.04) -----------------
+now starting benchmark (NN 0.005 0.04) -----------------
+now starting benchmark (NN 0.005 0.03) -----------------
+now starting benchmark (NN 0.005 0.03) -----------------
+now starting benchmark CC4 -----------------
+now starting benchmark (AFC27 0.008) -----------------
+now starting benchmark (AFC27 0.008) -----------------
+<-------------------------------------------------------> 
+Run: 1/1 
+Falsified: Yes 
+number of simulations 14 
+Time taken 55.25 seconds
+now starting benchmark (AFC27 0.008) -----------------
+<-------------------------------------------------------> 
+Run: 1/1 
+Falsified: Yes 
+number of simulations 16 
+Time taken 51.11 seconds
+<-------------------------------------------------------> 
+Run: 1/1 
+Falsified: Yes 
+number of simulations 5 
+Time taken 16.00 seconds
+<-------------------------------------------------------> 
+Run: 1/1 
+Falsified: Yes 
+number of simulations 6 
+Time taken 15.42 seconds
+<-------------------------------------------------------> 
+Run: 1/1 
+Falsified: Yes 
+number of simulations 15 
+Time taken 54.41 seconds
+<-------------------------------------------------------> 
+Run: 1/1 
+Falsified: Yes 
+number of simulations 2 
+Time taken 4.41 seconds
+<-------------------------------------------------------> 
+Run: 1/1 
+Falsified: Yes 
+number of simulations 15 
+Time taken 51.69 seconds
+<-------------------------------------------------------> 
+Run: 1/1 
+Falsified: Yes 
+number of simulations 2 
+Time taken 6.03 seconds
+<-------------------------------------------------------> 
+Run: 1/1 
+Falsified: Yes 
+number of simulations 5 
+Time taken 15.90 seconds
+<-------------------------------------------------------> 
+Run: 1/1 
+Falsified: Yes 
+number of simulations 8 
+Time taken 23.64 seconds
+<-------------------------------------------------------> 
+Run: 1/1 
+Falsified: Yes 
+number of simulations 32 
+Time taken 240.87 seconds
+now starting benchmark (AFC29 0.007) -----------------
+<-------------------------------------------------------> 
+Run: 1/1 
+Falsified: Yes 
+number of simulations 2 
+Time taken 2.71 seconds
+<-------------------------------------------------------> 
+Run: 1/1 
+Falsified: Yes 
+number of simulations 2 
+Time taken 2.46 seconds
+<-------------------------------------------------------> 
+Run: 1/1 
+Falsified: Yes 
+number of simulations 2 
+Time taken 2.46 seconds
+<-------------------------------------------------------> 
+Run: 1/1 
+Falsified: Yes 
+number of simulations 2 
+Time taken 2.53 seconds
+<-------------------------------------------------------> 
+Run: 1/1 
+Falsified: Yes 
+number of simulations 5 
+Time taken 6.65 seconds
+<-------------------------------------------------------> 
+Run: 1/1 
+Falsified: Yes 
+number of simulations 2 
+Time taken 2.53 seconds
+<-------------------------------------------------------> 
+Run: 1/1 
+Falsified: Yes 
+number of simulations 10 
+Time taken 10.14 seconds
+<-------------------------------------------------------> 
+Run: 1/1 
+Falsified: Yes 
+number of simulations 4 
+Time taken 5.03 seconds
+<-------------------------------------------------------> 
+Run: 1/1 
+Falsified: Yes 
+number of simulations 5 
+Time taken 6.35 seconds
+<-------------------------------------------------------> 
+Run: 1/1 
+Falsified: Yes 
+number of simulations 4 
+Time taken 5.15 seconds
+now starting benchmark (AFC29 0.007) -----------------
+<-------------------------------------------------------> 
+Run: 1/1 
+Falsified: Yes 
+number of simulations 6 
+Time taken 8.12 seconds
+<-------------------------------------------------------> 
+Run: 1/1 
+Falsified: Yes 
+number of simulations 4 
+Time taken 3.96 seconds
+<-------------------------------------------------------> 
+Run: 1/1 
+Falsified: Yes 
+number of simulations 2 
+Time taken 2.48 seconds
+<-------------------------------------------------------> 
+Run: 1/1 
+Falsified: Yes 
+number of simulations 2 
+Time taken 2.44 seconds
+<-------------------------------------------------------> 
+Run: 1/1 
+Falsified: Yes 
+number of simulations 3 
+Time taken 3.72 seconds
+<-------------------------------------------------------> 
+Run: 1/1 
+Falsified: Yes 
+number of simulations 1 
+Time taken 1.27 seconds
+now starting benchmark (AFC29 0.007) -----------------
+<-------------------------------------------------------> 
+Run: 1/1 
+Falsified: Yes 
+number of simulations 6 
+Time taken 9.47 seconds
+<-------------------------------------------------------> 
+Run: 1/1 
+Falsified: Yes 
+number of simulations 4 
+Time taken 4.09 seconds
+<-------------------------------------------------------> 
+Run: 1/1 
+Falsified: Yes 
+number of simulations 2 
+Time taken 2.47 seconds
+<-------------------------------------------------------> 
+Run: 1/1 
+Falsified: Yes 
+number of simulations 2 
+Time taken 2.51 seconds
+<-------------------------------------------------------> 
+Run: 1/1 
+Falsified: Yes 
+number of simulations 3 
+Time taken 3.92 seconds
+<-------------------------------------------------------> 
+Run: 1/1 
+Falsified: Yes 
+number of simulations 1 
+Time taken 1.24 seconds
+<-------------------------------------------------------> 
+Run: 1/1 
+Falsified: Yes 
+number of simulations 2 
+Time taken 2.53 seconds
+<-------------------------------------------------------> 
+Run: 1/1 
+Falsified: Yes 
+number of simulations 2 
+Time taken 2.64 seconds
+now starting benchmark CC5 -----------------
+<-------------------------------------------------------> 
+Run: 1/1 
+Falsified: Yes 
+number of simulations 74 
+Time taken 149.35 seconds
+now starting benchmark CC5 -----------------
+now starting benchmark CC5 -----------------
+<-------------------------------------------------------> 
+Run: 1/1 
+Falsified: Yes 
+number of simulations 49 
+Time taken 93.42 seconds
+<-------------------------------------------------------> 
+Run: 1/1 
+Falsified: Yes 
+number of simulations 9 
+Time taken 15.44 seconds
+<-------------------------------------------------------> 
+Run: 1/1 
+Falsified: Yes 
+number of simulations 57 
+Time taken 93.86 seconds
+<-------------------------------------------------------> 
+Run: 1/1 
+Falsified: Yes 
+number of simulations 25 
+Time taken 43.66 seconds
+<-------------------------------------------------------> 
+Run: 1/1 
+Falsified: Yes 
+number of simulations 11 
+Time taken 19.42 seconds
+now starting benchmark CCx -----------------
+now starting benchmark CCx -----------------
+<-------------------------------------------------------> 
+Run: 1/1 
+Falsified: No 
+number of simulations 302 
+Time taken 386.84 seconds
+<-------------------------------------------------------> 
+Run: 1/1 
+Falsified: Yes 
+number of simulations 92 
+Time taken 112.96 seconds
+now starting benchmark AFC33 -----------------
+now starting benchmark AFC33 -----------------
+now starting benchmark AFC33 -----------------
+<-------------------------------------------------------> 
+Run: 1/1 
+Falsified: Yes 
+number of simulations 1000 
+Time taken 997.82 seconds
+<-------------------------------------------------------> 
+Run: 1/1 
+Falsified: Yes 
+number of simulations 16 
+Time taken 13.71 seconds
+<-------------------------------------------------------> 
+Run: 1/1 
+Falsified: Yes 
+number of simulations 16 
+Time taken 11.79 seconds
+<-------------------------------------------------------> 
+Run: 1/1 
+Falsified: Yes 
+number of simulations 16 
+Time taken 12.19 seconds
+now starting benchmark CCx -----------------
+now starting benchmark CCx -----------------
+now starting benchmark CCx -----------------
+now starting benchmark CCx -----------------
+now starting benchmark CCx -----------------
+now starting benchmark CCx -----------------
+now starting benchmark CCx -----------------
+now starting benchmark CCx -----------------
+now starting benchmark CCx -----------------
+now starting benchmark CCx -----------------
+now starting benchmark CCx -----------------
+now starting benchmark CCx -----------------
+now starting benchmark CCx -----------------
+now starting benchmark CCx -----------------
+now starting benchmark CCx -----------------
+now starting benchmark CCx -----------------
+now starting benchmark CCx -----------------
+now starting benchmark CCx -----------------
+now starting benchmark CCx -----------------
+now starting benchmark CCx -----------------
+now starting benchmark CCx -----------------
+now starting benchmark CCx -----------------
+now starting benchmark CCx -----------------
+now starting benchmark CCx -----------------
+now starting benchmark CCx -----------------
+now starting benchmark CCx -----------------
+now starting benchmark CCx -----------------
+now starting benchmark CCx -----------------
+now starting benchmark CCx -----------------
+now starting benchmark CCx -----------------
+now starting benchmark CCx -----------------
+now starting benchmark CCx -----------------
+now starting benchmark CCx -----------------
+now starting benchmark CCx -----------------
+now starting benchmark CCx -----------------
+now starting benchmark CCx -----------------
+now starting benchmark CCx -----------------
+now starting benchmark CCx -----------------
+now starting benchmark CCx -----------------
+now starting benchmark CCx -----------------
+now starting benchmark CCx -----------------
+now starting benchmark CCx -----------------
+now starting benchmark CCx -----------------
+now starting benchmark CCx -----------------
