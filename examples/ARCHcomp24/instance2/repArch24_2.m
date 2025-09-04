@@ -42,8 +42,8 @@ bench.requirements = {; ...
     % "CC","CC1", 5, globally(x(5)-x(4)<=40,interval(0,100)); ...
     % "CC","CC2", 5, globally(finally(x(5)-x(4)>=15,interval(0,30)),interval(0,70)); ...
     % "CC","CC3", 5, globally(globally(x(2)-x(1)<=20,interval(0,20)) | finally(x(5)-x(4)>=40,interval(0,20)),interval(0,80)); ...
-    %"CC","CC4", 5, globally(finally(globally(x(5)-x(4)>=8,interval(0,5)),interval(0,30)),interval(0,65)); ...
-    %"CC","CC5", 5, globally(finally(implies(globally(x(2)-x(1)>=9,interval(0,5)),globally(x(5)-x(4)>=9,interval(5,20))),interval(0,8)),interval(0,72)); ...
+    % "CC","CC4", 5, globally(finally(globally(x(5)-x(4)>=8,interval(0,5)),interval(0,30)),interval(0,65)); ...
+    % "CC","CC5", 5, globally(finally(implies(globally(x(2)-x(1)>=9,interval(0,5)),globally(x(5)-x(4)>=9,interval(5,20))),interval(0,8)),interval(0,72)); ...
     "CC","CCx", 5, globally(x(2)-x(1)>7.5,interval(0,50)) & globally(x(3)-x(2)>7.5,interval(0,50)) & globally(x(4)-x(3)>7.5,interval(0,50)) & globally(x(5)-x(4)>7.5,interval(0,50)); ...
     };
 benches{end+1} = bench;
@@ -121,12 +121,21 @@ for b = 1:length(benches)
         kfModel.spec = specification(eq,'logic');
         kfModel.runs=1;
         kfModel.verb=2;
-        kfModel.nResets=5; %'auto'
         kfModel.resetStrat=1;
         kfModel.sampPerturb=0.1;
         kfModel.trainStrat=2;
         kfModel.maxSims=300;
+        kfModel.spec_string=coraBreachConvert(eq);
+        % disp(kfModel.spec.toString())
+        disp(coraBreachConvert(eq))
         % kfModel.ose = tCC();
+
+
+        kfModel.nResets=10;
+        obj.ak.nObs=150;
+        obj.ak.rank=[20,100,20];
+
+
         for j=1:10
             [kfSolns,~] = falsify(kfModel);
             soln=kfSolns{1};

@@ -54,11 +54,16 @@ function [rob, grad] = eval_stl_recursive(phi, x_struct)
         otherwise
             error("Unsupported operator: " + op_type);
     end
+    % fields = fieldnames(grad);
+    % 
+    % for i = 1:length(fields)
+    %     grad.(fields{i})  = grad.(fields{i})/10;
+    % end
 end
 
 
 function [rob, grad] = smooth_min(r1, g1, r2, g2)
-    alpha = 10;
+    alpha = 1;
     w1 = exp(-alpha*r1);
     w2 = exp(-alpha*r2);
     Z = w1 + w2;
@@ -89,7 +94,8 @@ function [rob, grad] = smooth_min_all(r_arr, g_arr)
 end
 
 function [rob, grad] = smooth_max_all(r_arr, g_arr)
-    [rob, grad] = smooth_max(r_arr(1), g_arr);
+    rob = r_arr(1);
+    grad = g_arr;
     for i = 2:length(r_arr)
         [rob, grad] = smooth_max(rob, grad, r_arr(i), g_arr);
     end

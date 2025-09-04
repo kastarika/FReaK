@@ -24,6 +24,7 @@ classdef KF
 
     %------------- BEGIN CODE --------------
     properties
+        spec_string
         ose
         % model: name of the simulink model, blackbox function, OdeFcn or
         % ode (note: ode is a builtin class from matlab 2023b)
@@ -165,8 +166,9 @@ classdef KF
             obj.trainStrat=0;
             obj.resetStrat=0;
             obj.rmRand=true; %true
-            obj.sampPerturb=0.1;
-            obj.offsetStrat=-1; %-1
+            % obj.sampPerturb=0.1;
+            % obj.offsetStrat=-1; %-1
+            obj.offsetStrat=0;
             obj.inputInterpolation='previous';
             obj.trajInterpolation='linear';
             obj.pulseInput = false;

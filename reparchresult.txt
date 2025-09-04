@@ -353,3 +353,249 @@ now starting benchmark CCx -----------------
 now starting benchmark CCx -----------------
 now starting benchmark CCx -----------------
 now starting benchmark CCx -----------------
+now starting benchmark CCx -----------------
+now starting benchmark CCx -----------------
+now starting benchmark CCx -----------------
+now starting benchmark CCx -----------------
+now starting benchmark CCx -----------------
+now starting benchmark CCx -----------------
+now starting benchmark CCx -----------------
+now starting benchmark CCx -----------------
+now starting benchmark CCx -----------------
+now starting benchmark CCx -----------------
+now starting benchmark CCx -----------------
+now starting benchmark CCx -----------------
+now starting benchmark CCx -----------------
+now starting benchmark CCx -----------------
+now starting benchmark CCx -----------------
+now starting benchmark CCx -----------------
+now starting benchmark CCx -----------------
+now starting benchmark CCx -----------------
+now starting benchmark CCx -----------------
+now starting benchmark CCx -----------------
+now starting benchmark CCx -----------------
+now starting benchmark CCx -----------------
+now starting benchmark CCx -----------------
+now starting benchmark CCx -----------------
+now starting benchmark CCx -----------------
+now starting benchmark CCx -----------------
+now starting benchmark CCx -----------------
+now starting benchmark CCx -----------------
+now starting benchmark CCx -----------------
+now starting benchmark CCx -----------------
+now starting benchmark CCx -----------------
+now starting benchmark CCx -----------------
+now starting benchmark CCx -----------------
+now starting benchmark CCx -----------------
+now starting benchmark CCx -----------------
+now starting benchmark AT1 -----------------
+<-------------------------------------------------------> 
+Run: 1/1 
+Falsified: Yes 
+number of simulations 18 
+Time taken 134.32 seconds
+<-------------------------------------------------------> 
+Run: 1/1 
+Falsified: Yes 
+number of simulations 20 
+Time taken 184.63 seconds
+<-------------------------------------------------------> 
+Run: 1/1 
+Falsified: Yes 
+number of simulations 14 
+Time taken 106.37 seconds
+<-------------------------------------------------------> 
+Run: 1/1 
+Falsified: Yes 
+number of simulations 10 
+Time taken 90.48 seconds
+<-------------------------------------------------------> 
+Run: 1/1 
+Falsified: Yes 
+number of simulations 8 
+Time taken 91.75 seconds
+<-------------------------------------------------------> 
+Run: 1/1 
+Falsified: Yes 
+number of simulations 18 
+Time taken 118.90 seconds
+<-------------------------------------------------------> 
+Run: 1/1 
+Falsified: Yes 
+number of simulations 4 
+Time taken 45.96 seconds
+<-------------------------------------------------------> 
+Run: 1/1 
+Falsified: Yes 
+number of simulations 6 
+Time taken 59.40 seconds
+<-------------------------------------------------------> 
+Run: 1/1 
+Falsified: Yes 
+number of simulations 18 
+Time taken 122.83 seconds
+<-------------------------------------------------------> 
+Run: 1/1 
+Falsified: Yes 
+number of simulations 4 
+Time taken 36.84 seconds
+now starting benchmark AT2 -----------------
+<-------------------------------------------------------> 
+Run: 1/1 
+Falsified: Yes 
+number of simulations 5 
+Time taken 36.48 seconds
+<-------------------------------------------------------> 
+Run: 1/1 
+Falsified: Yes 
+number of simulations 2 
+Time taken 11.21 seconds
+<-------------------------------------------------------> 
+Run: 1/1 
+Falsified: Yes 
+number of simulations 2 
+Time taken 7.77 seconds
+<-------------------------------------------------------> 
+Run: 1/1 
+Falsified: Yes 
+number of simulations 4 
+Time taken 28.36 seconds
+<-------------------------------------------------------> 
+Run: 1/1 
+Falsified: Yes 
+number of simulations 2 
+Time taken 10.37 seconds
+<-------------------------------------------------------> 
+Run: 1/1 
+Falsified: Yes 
+number of simulations 10 
+Time taken 31.49 seconds
+<-------------------------------------------------------> 
+Run: 1/1 
+Falsified: Yes 
+number of simulations 16 
+Time taken 32.02 seconds
+<-------------------------------------------------------> 
+Run: 1/1 
+Falsified: Yes 
+number of simulations 2 
+Time taken 11.97 seconds
+<-------------------------------------------------------> 
+Run: 1/1 
+Falsified: Yes 
+number of simulations 12 
+Time taken 71.33 seconds
+<-------------------------------------------------------> 
+Run: 1/1 
+Falsified: Yes 
+number of simulations 2 
+Time taken 7.08 seconds
+now starting benchmark AT51 -----------------
+<-------------------------------------------------------> 
+Run: 1/1 
+Falsified: Yes 
+number of simulations 19 
+Time taken 276.11 seconds
+<-------------------------------------------------------> 
+Run: 1/1 
+Falsified: Yes 
+number of simulations 69 
+Time taken 655.77 seconds
+<-------------------------------------------------------> 
+Run: 1/1 
+Falsified: Yes 
+number of simulations 3 
+Time taken 4.32 seconds
+<-------------------------------------------------------> 
+Run: 1/1 
+Falsified: Yes 
+number of simulations 22 
+Time taken 291.83 seconds
+<-------------------------------------------------------> 
+Run: 1/1 
+Falsified: Yes 
+number of simulations 6 
+Time taken 108.21 seconds
+<-------------------------------------------------------> 
+Run: 1/1 
+Falsified: Yes 
+number of simulations 7 
+Time taken 141.74 seconds
+<-------------------------------------------------------> 
+Run: 1/1 
+Falsified: Yes 
+number of simulations 18 
+Time taken 464.58 seconds
+<-------------------------------------------------------> 
+Run: 1/1 
+Falsified: Yes 
+number of simulations 31 
+Time taken 718.49 seconds
+<-------------------------------------------------------> 
+Run: 1/1 
+Falsified: Yes 
+number of simulations 7 
+Time taken 129.50 seconds
+<-------------------------------------------------------> 
+Run: 1/1 
+Falsified: Yes 
+number of simulations 28 
+Time taken 596.52 seconds
+now starting benchmark AT52 -----------------
+<-------------------------------------------------------> 
+Run: 1/1 
+Falsified: Yes 
+number of simulations 1 
+Time taken 1.15 seconds
+<-------------------------------------------------------> 
+Run: 1/1 
+Falsified: Yes 
+number of simulations 19 
+Time taken 283.00 seconds
+<-------------------------------------------------------> 
+Run: 1/1 
+Falsified: Yes 
+number of simulations 6 
+Time taken 103.21 seconds
+<-------------------------------------------------------> 
+Run: 1/1 
+Falsified: Yes 
+number of simulations 6 
+Time taken 89.43 seconds
+<-------------------------------------------------------> 
+Run: 1/1 
+Falsified: Yes 
+number of simulations 2 
+Time taken 25.38 seconds
+<-------------------------------------------------------> 
+Run: 1/1 
+Falsified: Yes 
+number of simulations 9 
+Time taken 160.83 seconds
+<-------------------------------------------------------> 
+Run: 1/1 
+Falsified: Yes 
+number of simulations 7 
+Time taken 121.69 seconds
+<-------------------------------------------------------> 
+Run: 1/1 
+Falsified: Yes 
+number of simulations 1 
+Time taken 1.10 seconds
+now starting benchmark CC4 -----------------
+now starting benchmark CC4 -----------------
+now starting benchmark CC4 -----------------
+now starting benchmark CC4 -----------------
+now starting benchmark CC4 -----------------
+now starting benchmark CC4 -----------------
+now starting benchmark CC4 -----------------
+now starting benchmark CC4 -----------------
+now starting benchmark CC4 -----------------
+now starting benchmark CC4 -----------------
+now starting benchmark CC4 -----------------
+now starting benchmark CC4 -----------------
+now starting benchmark CC4 -----------------
+now starting benchmark CC4 -----------------
+now starting benchmark CC4 -----------------
+now starting benchmark CCx -----------------
+now starting benchmark CCx -----------------

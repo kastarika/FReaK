@@ -12,6 +12,8 @@ phi = STL_Formula('phi', phi_str);
 
 % Compute robustness and gradient
 [rob, grad] = eval_stl_recursive(phi, x_struct);
+disp(rob)
+disp(grad)
 
 % Plot robustness
 figure;

@@ -92,7 +92,11 @@ for run=1:obj.runs
             %repeated, or no viable soln found last iter, retrain with new xu else retrain with prev traj
             if trainIter==0 || obj.trainStrat>=1 || checkTrainsetRepeatedTraj(critX0,critU,trainset,obj.verb) || ~(curSoln.rob<inf)
                 % for iiii = 1:10
-                    [tsim,x,u,simTime, x0] = sampleSimulation(obj,allData,perturb);
+                    [tsim,x,u,simTime, x00] = sampleSimulation(obj,allData,perturb);
+                    % disp(x00);
+                    if ~isscalar(x00)
+                        x0 = x00;
+                    end
                     % disp('input from sample simulation');
                     % disp(u);
                     perturb=min(1,perturb+obj.sampPerturb); %increase perturbation
@@ -123,9 +127,9 @@ for run=1:obj.runs
 
         %run autokoopman and learn linearized model
         [koopModel,koopTime] = learnKoopModel(obj, trainset);
-        disp(trainset)
-        disp(koopModel)
-        keyboard;
+        % disp(trainset)
+        % disp(koopModel)
+        % keyboard;
         soln.koopTime = soln.koopTime+koopTime;
         % error('end');
         % compute reachable set for Koopman linearized model (if reachability is used)
@@ -149,49 +153,58 @@ for run=1:obj.runs
         optimTime=tic;
         
         
-        specSolns = critAlpha(obj,R,koopModel,specSolns);
-        
-
-        
-
-        % disp('out2');
-        soln.optimTime=soln.optimTime+toc(optimTime);
-        %         catch
-        %             vprintf(obj.verb,2,"error encountered whilst setup/solving, resetting training data \n")
-        %             trainIter=0;
-        %             continue;
-        %         end
-
-        %get critical spec with minimum robustness and corresponding soln struct
-        [~,minIndex]=min(specSolns.values.rob);
-        keys = specSolns.keys('cell');
-        critSpec=keys{minIndex};
-        curSoln=specSolns(critSpec);
+        % specSolns = critAlpha(obj,R,koopModel,specSolns);
+        % 
+        % 
+        % 
+        % 
+        % % disp('out2');
+        % soln.optimTime=soln.optimTime+toc(optimTime);
+        % %         catch
+        % %             vprintf(obj.verb,2,"error encountered whilst setup/solving, resetting training data \n")
+        % %             trainIter=0;
+        % %             continue;
+        % %         end
+        % 
+        % %get critical spec with minimum robustness and corresponding soln struct
+        % [~,minIndex]=min(specSolns.values.rob);
+        % keys = specSolns.keys('cell');
+        % critSpec=keys{minIndex};
+        % curSoln=specSolns(critSpec);
 
         
 
         rob_vec = cell2mat(trainset.Rob);
 
         % Find index of minimum robustness
-        [~, idx_min] = min(rob_vec);
+        [tst, idx_min] = min(rob_vec);
         
         % Extract corresponding XU
+        disp(['pre u ' num2str(tst)])
         XU_min = trainset.XU{idx_min};
-        disp(size(curSoln.u))
+        % disp(size(curSoln.u))
         % keyboard;
+        % disp(x0);
+        % disp(XU_min);
         koopModel.x0 = x0;
         koopModel.N = obj.cp(1) + 1;
         koopModel.U = XU_min;
         % disp(koopModel.g(x0))
-        disp(koopModel)
-        disp(obj.cp)
-        save('testkoopModel', 'koopModel');
-        % there is cp + 1 inputs. get x0 and do cp steps with koopman
-        keyboard;
+        % disp(koopModel)
+        % disp(obj.cp(1))
+        % save('testkoopModel', 'koopModel');
+        % disp(obj.U.inf)
+        % disp(obj.U.sup)
+        % % there is cp + 1 inputs. get x0 and do cp steps with koopman
+        % keyboard;
+
+        [u_opt, fval, exitflag] = koopman_gd(koopModel.A, koopModel.B, koopModel.g, koopModel.x0, obj.spec_string, koopModel.U, obj.U.inf, obj.U.sup, obj.cp(1) + 1);
         
         % disp(curSoln.x)
         % keyboard;
-
+        curSoln.rob = fval;
+        curSoln.u = u_opt;
+        curSoln.x0 = koopModel.x0;
         % this section check if critical trajectory is falsifying. If not, it also offsets if neccassary
         if curSoln.rob~=inf %found some solution
             offsetIter = 0;
@@ -232,7 +245,10 @@ for run=1:obj.runs
                 if nargout>1;allData.koopModels{end+1}=koopModel;end %store koop model if needed
                 if newBest_; perturb=0; end %reset pertrubation if new best soln found
                 if falsified; break; end
-
+                disp(['after optimization' num2str(robustness)])
+                % disp(curSoln.rob)
+                % disp(koopModel.U)
+                % keyboard;
                 if robustness~=inf %there exist a value for robustness for which we can neighborhood train or offset
                     if obj.trainStrat==1 && robustness >= soln.best.rob %neighborhood training mode
                         %remove last entry because it is not improving the obj

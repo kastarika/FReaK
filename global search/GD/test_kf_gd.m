@@ -75,11 +75,14 @@ lb = zeros(dim_u*N,1);
 ub = ones(dim_u*N,1);
 
 % Run gradient-based falsification
-[u_opt, fval, exitflag] = optimize_koopman_gd_mem(A, B, g, x0, phi_str, u0, lb, ub, N);
+[u_opt, fval, exitflag] = optimize_koopman_gd_3(A, B, g, x0, phi_str, u0, lb, ub, N);
 
 % Display results
 disp('Optimized input sequence:');
 disp(u_opt);
+
+disp('pre input')
+disp(u0);
 
 disp('Final STL robustness:');
 disp(fval);
