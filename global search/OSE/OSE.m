@@ -40,7 +40,7 @@ classdef OSE < handle
                 sorted = false; % Default to false if not provided
             end
             
-            sorted = false;
+            sorted = true;
 
             obj.OSE_producer();
             obj.traj_idx = 1; % Initialize trajectory index

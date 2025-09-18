@@ -104,8 +104,8 @@ else
 end
 if ~isempty(u)
     all_steps = obj.T/obj.ak.dt;
-    disp(all_steps)
-    keyboard
+    % disp(all_steps)
+    % keyboard
     %check that correct number of inputs is returned, sometimes we have a
     %final dummy input so that number of inputs is equal to state variables
     %for MILP stl encoding, we remove it.

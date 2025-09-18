@@ -85,7 +85,12 @@ g = g(xSym);
 g = matlabFunction(g,'Vars',{xSym});
 
 %store koopman model
+% data = load('testkoopModel.mat'); 
+% if ~isequal(data.koopModel.A, A)
+%     disp('new data changed koopman model')
+% end
 koopModel.A=A; koopModel.B=B; koopModel.g=g;
+% save('testkoopModel', 'koopModel');
 end
 
 function stateWeights=getVarHierarchy(set,dt,T,count,stateWeights)

@@ -122,18 +122,18 @@ for b = 1:length(benches)
         kfModel.runs=1;
         kfModel.verb=2;
         kfModel.resetStrat=1;
-        kfModel.sampPerturb=0.1;
+        kfModel.sampPerturb=0.02;
         kfModel.trainStrat=2;
         kfModel.maxSims=300;
         kfModel.spec_string=coraBreachConvert(eq);
         % disp(kfModel.spec.toString())
-        disp(coraBreachConvert(eq))
-        % kfModel.ose = tCC();
+        % disp(coraBreachConvert(eq))
+        kfModel.ose = tCC();
 
 
-        kfModel.nResets=10;
-        obj.ak.nObs=150;
-        obj.ak.rank=[20,100,20];
+        kfModel.nResets=3;
+        % kfModel.ak.nObs=200;
+        % kfModel.ak.rank=[50,200,50];
 
 
         for j=1:10

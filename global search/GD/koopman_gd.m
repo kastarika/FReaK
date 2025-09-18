@@ -26,16 +26,32 @@ function [u_opt, fval, exitflag] = koopman_gd(A, B, g, x0, phi_str, u0, lb, ub, 
 
     % fmincon options
     opts = optimoptions('fmincon','Algorithm','sqp','Display','iter', ...
-                        'SpecifyObjectiveGradient', true, 'MaxIterations', 100);
+                        'SpecifyObjectiveGradient', true, 'MaxIterations', 2);
     % opts = optimoptions('fmincon','Algorithm','sqp','Display','iter', ...
     % 'SpecifyObjectiveGradient', true, 'MaxIterations', 100, ...
     % 'OutputFcn', @stop_when_negative);
 
     % Objective wrapper
     fun = @(u) stl_cost_devec_pre(u, A, B, g, z0, phi_str, C, dim_u, N, AB_cells);
+    % 
+    % % Run optimization
+    % [u_opt, fval, exitflag] = fmincon(fun, u0, [], [], [], [], lb, ub, [], opts);
 
-    % Run optimization
-    [u_opt, fval, exitflag] = fmincon(fun, u0, [], [], [], [], lb, ub, [], opts);
+    % Options for simulated annealing
+    sa_opts = optimoptions('simulannealbnd', ...
+                       'Display', 'iter', ...         % show progress
+                       'MaxIterations', 20);        % use fmincon after SA
+
+    u_opt = u0(:);
+    lb = lb(:);
+    ub = ub(:);
+    
+
+    for iii = 1:3
+        [u_opt, fval] = simulannealbnd(fun, u_opt, lb, ub, sa_opts);
+        [u_opt, fval, exitflag] = fmincon(fun, u_opt, [], [], [], [], lb, ub, [], opts);
+        disp([num2str(iii) ' CYCLE END'])
+    end
 end
 
 %% ---------------- Gradient and cost (devectorized, precomputed AB) ----------------

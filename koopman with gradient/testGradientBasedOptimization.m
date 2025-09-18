@@ -2,70 +2,127 @@
 numFeat = 50;          % number of observables
 l = 1;                 % lengthscale parameter
 maxFunEval = 400;      % max. number function evaluation for optimization
-maxIter = 100;         % max. number of iterations for optimization
+maxIter = 500;         % max. number of iterations for optimization
+output_dim = 5;        % number of outputs of the system
 
 % generate Random Fourier Feature observables
-g = randomFourierFeatureObservables(numFeat,2,l);
+% g = randomFourierFeatureObservables(numFeat,2,l);
+g = randomFourierFeatureObservables(numFeat,output_dim,l);
+% 5 = number of outputs the system has
 
+tic;
 % generate data
-f = @(x,u) [x(2); ...
-            (1-x(1)^2)*x(2)-x(1)];
+% f = @(x,u) [x(2); ...
+%             (1-x(1)^2)*x(2)-x(1)];
+% 
+% sysOrig = nonlinearSys(f);
+% 
+% params.tFinal = 10;
+% params.R0 = zonotope(interval([-3;-3],[3;3]));
+% 
+% options.points = 6;
+% 
+% simRes = simulateRandom(sysOrig,params,options);
 
-sysOrig = nonlinearSys(f);
+L = 20;
 
-params.tFinal = 10;
-params.R0 = zonotope(interval([-3;-3],[3;3]));
+T = 100;
+time_step = 5;
+steps = T / time_step + 1;
+timestamps = (0:steps - 1)' * time_step;
+simu_name = 'cars';
+input_dims = 2;
+p = [];
 
-options.points = 6;
+params.tFinal = T;
 
-simRes = simulateRandom(sysOrig,params,options);
+trajes = cell(L, 1);
+disp(size(trajes));
+
+for i = 1:L
+    u = rand(steps, input_dims);
+    trajes{i}.u = u;
+    u = [timestamps, u];
+    [tout, yout] = runSimu(simu_name, T, p, u);
+    trajes{i}.t = tout;
+    trajes{i}.x = yout;
+    % disp(size(tout))
+    % disp(size(yout))
+end
+keyboard;
 
 % transform data by the observable function
-x = cell(length(simRes),1);
-t = cell(length(simRes),1);
+x = cell(L,1);
+t = cell(L,1);
 
-for i = 1:length(simRes)
-    t{i} = simRes(i).t{1};
-    x_ = simRes(i).x{1};
+for i = 1:L
+    % t{i} = simRes(1).t{i};
+    % x_ = simRes(1).x{i};
+    t{i} = trajes{i}.t;
+    x_ = trajes{i}.x;
+    disp(size(x_));
     for j = 1:size(x_,1)
         x{i} = [x{i};g(x_(j,:)')'];
     end
 end
 
-% identify a Koopman model (optimization)
-p = size(simRes(1).x{1},2);
+% disp()
 
-sysOpt = aux_identifyOpt(x(1:5),t(1:5),p,maxFunEval,maxIter);
+% identify a Koopman model (optimization)
+% p = size(simRes(1).x{1},2);
+p = size(trajes{1}.x,2);
+
+
+data=cell(size(x));
+for i=1:L
+    data{i}.t = t{i};
+    data{i}.x = x{i};
+end
+
+
+sysOpt = aux_identifyOpt(x(1:L),t(1:L),p,maxFunEval,maxIter);
 
 % identify a Koopman model (DMD)
-optOpts.alg = 'dmd';
+% optOpts.alg = 'dmd';
+% sysDMD = aux_identifyDMD(data);
 
-sysDMD = linearSysDT.identify(x(1:5),t(1:5));
+
 
 % simulate the Koopman model
 simResOpt = [];
-simResDMD = [];
+% simResDMD = [];
 
-for i = 1:length(simRes)
+for i = 1:L
 
-    simOpts.x0 = g(simRes(i).x{1}(1,:)');
+    % simOpts.x0 = g(simRes(1).x{i}(1,:)');
+    simOpts.x0 = g(trajes{i}.x(1,:)');
     simOpts.tFinal = ceil(params.tFinal/sysOpt.dt)*sysOpt.dt;
 
     [tOpt,xOpt] = simulate(sysOpt,simOpts);
-    [tDMD,xDMD] = simulate(sysDMD,simOpts);
+    % [tDMD,xDMD] = simulate(sysDMD,simOpts);
 
     simResOpt = [simResOpt;simResult({xOpt},{tOpt})];
-    simResDMD = [simResDMD;simResult({xDMD},{tDMD})];
+    % simResDMD = [simResDMD;simResult({xDMD},{tDMD})];
 end
+
+disp(simResOpt)
+elapsed_time = toc;
+disp(elapsed_time);
+keyboard;
 
 % visualization
 figure; hold on; box on;
 h1 = plot(simRes);
-h2 = plot(simResOpt);
-h3 = plot(simResDMD);
+xx = simResOpt.x;
+xx = xx{1};
+xx = xx(:,1:2);
+h2 = plot(xx(:,1), xx(:,2));
+% h2 = plot(simResOpt);
+% h3 = plot(simResDMD);
 
-legend([h1,h2,h3],'ground truth','optimization','dmd');
+% legend([h1,h2,h3],'ground truth','optimization','dmd');
 
+legend([h1,h2],'ground truth','optimization');
 
 
 

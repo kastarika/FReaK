@@ -221,8 +221,8 @@ for i = 1:size(spec,1)
             Sys.g=koopModel.g;
             Sys=setupDynamics(Sys);
         end
-        disp(koopModel.g)
-        keyboard;
+        % disp(koopModel.g)
+        % keyboard;
         % disp('this')
         % disp(Sys.L)
         % disp('that')

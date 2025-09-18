@@ -7,6 +7,8 @@ function [x0,u] = falsifyingTrajectory(obj,soln)
     %check that correct number of inputs is returned, sometimes we have a
     %final dummy input so that number of inputs is equal to state variables
     %for MILP stl encoding, we remove it.
+    disp('akjsdhfkjasdhfjkahsdkjfhakjdshfjk')
+    disp(size(u))
     if size(u,2) == all_steps
     elseif size(u,2)==all_steps+1 %inputs returned include last time step
         u=u(:,1:end-1);

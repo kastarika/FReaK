@@ -152,7 +152,11 @@ for run=1:obj.runs
         %         try
         optimTime=tic;
         
-        
+
+        % MILP PART BEGIN
+        % --------------------------------------------------------------->
+
+        % 
         % specSolns = critAlpha(obj,R,koopModel,specSolns);
         % 
         % 
@@ -172,7 +176,16 @@ for run=1:obj.runs
         % critSpec=keys{minIndex};
         % curSoln=specSolns(critSpec);
 
-        
+
+        % MILP PART END
+        % --------------------------------------------------------------->
+
+
+
+
+
+        % GD PART BEGIN
+        % --------------------------------------------------------------->
 
         rob_vec = cell2mat(trainset.Rob);
 
@@ -180,6 +193,8 @@ for run=1:obj.runs
         [tst, idx_min] = min(rob_vec);
         
         % Extract corresponding XU
+        disp(['size of A matrix '])
+        disp(size(koopModel.A))
         disp(['pre u ' num2str(tst)])
         XU_min = trainset.XU{idx_min};
         % disp(size(curSoln.u))
@@ -192,19 +207,38 @@ for run=1:obj.runs
         % disp(koopModel.g(x0))
         % disp(koopModel)
         % disp(obj.cp(1))
-        % save('testkoopModel', 'koopModel');
+        save('testkoopModel', 'koopModel');
         % disp(obj.U.inf)
         % disp(obj.U.sup)
         % % there is cp + 1 inputs. get x0 and do cp steps with koopman
         % keyboard;
 
         [u_opt, fval, exitflag] = koopman_gd(koopModel.A, koopModel.B, koopModel.g, koopModel.x0, obj.spec_string, koopModel.U, obj.U.inf, obj.U.sup, obj.cp(1) + 1);
-        
+        % 
+        % 
+        % options = struct();
+        % options.alternating_cycles = 10;
+        % options.sa_max_iter = 2000;
+        % options.sa_initial_temp = 1000;
+        % options.sa_final_temp = 0.001;
+        % options.early_stop_threshold = -0.1;  % More aggressive falsification target
+
+        % [u_opt, fval, exitflag] = koopman_hybrid(koopModel.A, koopModel.B, koopModel.g, koopModel.x0, obj.spec_string, koopModel.U, obj.U.inf, obj.U.sup, obj.cp(1) + 1);
+        % 
+        u_opt = reshape(u_opt, size(koopModel.U));
+
         % disp(curSoln.x)
         % keyboard;
         curSoln.rob = fval;
         curSoln.u = u_opt;
         curSoln.x0 = koopModel.x0;
+
+        % GD PART END
+        % --------------------------------------------------------------->
+
+
+
+
         % this section check if critical trajectory is falsifying. If not, it also offsets if neccassary
         if curSoln.rob~=inf %found some solution
             offsetIter = 0;
@@ -242,10 +276,11 @@ for run=1:obj.runs
                 %check if critical inputs falsify the system and store data
                 [soln,falsified,robustness,Bdata,newBest_,critSpec]=checkFalsification(soln,critX,critU,tsim,obj.spec,tcp,obj.inputInterpolation,obj.U,'kf optimization',obj.verb);
                 allData.X{end+1}=critX; allData.XU{end+1}=critU; allData.t{end+1}=tsim; allData.Rob=[allData.Rob;robustness];
+                disp(['after optimization' num2str(robustness)])
                 if nargout>1;allData.koopModels{end+1}=koopModel;end %store koop model if needed
                 if newBest_; perturb=0; end %reset pertrubation if new best soln found
                 if falsified; break; end
-                disp(['after optimization' num2str(robustness)])
+                
                 % disp(curSoln.rob)
                 % disp(koopModel.U)
                 % keyboard;
