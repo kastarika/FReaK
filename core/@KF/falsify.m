@@ -126,7 +126,10 @@ for run=1:obj.runs
         % celldisp(trainset.XU);
 
         %run autokoopman and learn linearized model
+        
+
         [koopModel,koopTime] = learnKoopModel(obj, trainset);
+        keyboard;
         % disp(trainset)
         % disp(koopModel)
         % keyboard;
@@ -156,26 +159,28 @@ for run=1:obj.runs
         % MILP PART BEGIN
         % --------------------------------------------------------------->
 
-        % 
-        % specSolns = critAlpha(obj,R,koopModel,specSolns);
-        % 
-        % 
-        % 
-        % 
-        % % disp('out2');
-        % soln.optimTime=soln.optimTime+toc(optimTime);
-        % %         catch
-        % %             vprintf(obj.verb,2,"error encountered whilst setup/solving, resetting training data \n")
-        % %             trainIter=0;
-        % %             continue;
-        % %         end
-        % 
-        % %get critical spec with minimum robustness and corresponding soln struct
-        % [~,minIndex]=min(specSolns.values.rob);
-        % keys = specSolns.keys('cell');
-        % critSpec=keys{minIndex};
-        % curSoln=specSolns(critSpec);
 
+        specSolns = critAlpha(obj,R,koopModel,specSolns);
+        
+  
+
+
+
+        % disp('out2');
+        soln.optimTime=soln.optimTime+toc(optimTime);
+        %         catch
+        %             vprintf(obj.verb,2,"error encountered whilst setup/solving, resetting training data \n")
+        %             trainIter=0;
+        %             continue;
+        %         end
+
+        %get critical spec with minimum robustness and corresponding soln struct
+        [~,minIndex]=min(specSolns.values.rob);
+        keys = specSolns.keys('cell');
+        critSpec=keys{minIndex};
+        curSoln=specSolns(critSpec);
+
+        keyboard;
 
         % MILP PART END
         % --------------------------------------------------------------->
@@ -187,51 +192,51 @@ for run=1:obj.runs
         % GD PART BEGIN
         % --------------------------------------------------------------->
 
-        rob_vec = cell2mat(trainset.Rob);
-
-        % Find index of minimum robustness
-        [tst, idx_min] = min(rob_vec);
-        
-        % Extract corresponding XU
-        disp(['size of A matrix '])
-        disp(size(koopModel.A))
-        disp(['pre u ' num2str(tst)])
-        XU_min = trainset.XU{idx_min};
-        % disp(size(curSoln.u))
-        % keyboard;
-        % disp(x0);
-        % disp(XU_min);
-        koopModel.x0 = x0;
-        koopModel.N = obj.cp(1) + 1;
-        koopModel.U = XU_min;
-        % disp(koopModel.g(x0))
-        % disp(koopModel)
-        % disp(obj.cp(1))
-        save('testkoopModel', 'koopModel');
-        % disp(obj.U.inf)
-        % disp(obj.U.sup)
-        % % there is cp + 1 inputs. get x0 and do cp steps with koopman
-        % keyboard;
-
-        [u_opt, fval, exitflag] = koopman_gd(koopModel.A, koopModel.B, koopModel.g, koopModel.x0, obj.spec_string, koopModel.U, obj.U.inf, obj.U.sup, obj.cp(1) + 1);
+        % rob_vec = cell2mat(trainset.Rob);
         % 
+        % % Find index of minimum robustness
+        % [tst, idx_min] = min(rob_vec);
         % 
-        % options = struct();
-        % options.alternating_cycles = 10;
-        % options.sa_max_iter = 2000;
-        % options.sa_initial_temp = 1000;
-        % options.sa_final_temp = 0.001;
-        % options.early_stop_threshold = -0.1;  % More aggressive falsification target
-
-        % [u_opt, fval, exitflag] = koopman_hybrid(koopModel.A, koopModel.B, koopModel.g, koopModel.x0, obj.spec_string, koopModel.U, obj.U.inf, obj.U.sup, obj.cp(1) + 1);
+        % % Extract corresponding XU
+        % disp(['size of A matrix '])
+        % disp(size(koopModel.A))
+        % disp(['pre u ' num2str(tst)])
+        % XU_min = trainset.XU{idx_min};
+        % % disp(size(curSoln.u))
+        % % keyboard;
+        % % disp(x0);
+        % % disp(XU_min);
+        % koopModel.x0 = x0;
+        % koopModel.N = obj.cp(1) + 1;
+        % koopModel.U = XU_min;
+        % % disp(koopModel.g(x0))
+        % % disp(koopModel)
+        % % disp(obj.cp(1))
+        % save('testkoopModel', 'koopModel');
+        % % disp(obj.U.inf)
+        % % disp(obj.U.sup)
+        % % % there is cp + 1 inputs. get x0 and do cp steps with koopman
+        % % keyboard;
         % 
-        u_opt = reshape(u_opt, size(koopModel.U));
-
-        % disp(curSoln.x)
-        % keyboard;
-        curSoln.rob = fval;
-        curSoln.u = u_opt;
-        curSoln.x0 = koopModel.x0;
+        % [u_opt, fval, exitflag] = koopman_gd(koopModel.A, koopModel.B, koopModel.g, koopModel.x0, obj.spec_string, koopModel.U, obj.U.inf, obj.U.sup, obj.cp(1) + 1);
+        % % 
+        % % 
+        % % options = struct();
+        % % options.alternating_cycles = 10;
+        % % options.sa_max_iter = 2000;
+        % % options.sa_initial_temp = 1000;
+        % % options.sa_final_temp = 0.001;
+        % % options.early_stop_threshold = -0.1;  % More aggressive falsification target
+        % 
+        % % [u_opt, fval, exitflag] = koopman_hybrid(koopModel.A, koopModel.B, koopModel.g, koopModel.x0, obj.spec_string, koopModel.U, obj.U.inf, obj.U.sup, obj.cp(1) + 1);
+        % % 
+        % u_opt = reshape(u_opt, size(koopModel.U));
+        % 
+        % % disp(curSoln.x)
+        % % keyboard;
+        % curSoln.rob = fval;
+        % curSoln.u = u_opt;
+        % curSoln.x0 = koopModel.x0;
 
         % GD PART END
         % --------------------------------------------------------------->

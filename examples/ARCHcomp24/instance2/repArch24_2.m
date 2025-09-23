@@ -128,7 +128,7 @@ for b = 1:length(benches)
         kfModel.spec_string=coraBreachConvert(eq);
         % disp(kfModel.spec.toString())
         % disp(coraBreachConvert(eq))
-        kfModel.ose = tCC();
+        % kfModel.ose = tCC();
 
 
         kfModel.nResets=3;
