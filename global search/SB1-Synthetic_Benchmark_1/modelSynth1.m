@@ -17,10 +17,10 @@ function model = modelSynth1()
     model.R0 = interval(1.5806,1.5806); 
     model.U = interval([0;0],[1;1]); 
 
-    model.T=30; 
+    model.T=24; 
     model.dt = 0.01;
-    model.ak.dt=1; %2.5
-    model.cp=[5 5];
+    model.ak.dt=0.1; %2.5
+    model.cp=[4 4];
     
     model.nResets = 5;
     % model.resetStrat = 0;

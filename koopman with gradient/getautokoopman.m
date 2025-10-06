@@ -16,9 +16,9 @@ function koopModel = getautokoopman(trajes, obj)
         trainset.X{end+1} = xak';
         trainset.XU{end+1} = u(:,2:end)';
         trainset.Rob{end+1} = 1;
+       
     end
-    % keyboard;
-
+    % keyboard
     % [koopModel,koopTime] = learnKoopModel(obj, trainset(1));
     [koopModel,koopTime] = learnKoopModel(obj, trainset);
 end

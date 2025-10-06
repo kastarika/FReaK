@@ -179,7 +179,17 @@ for run=1:obj.runs
         keys = specSolns.keys('cell');
         critSpec=keys{minIndex};
         curSoln=specSolns(critSpec);
-
+        final_t = (obj.T - obj.ak.dt);
+        t = 0:obj.ak.dt:final_t;
+        u = curSoln.u(:,1:end-1);
+        keyboard;
+        u = [t',u'];
+        [tout,yout] = run_synth_benchmark1([], u, final_t);
+        figure;
+        plot(tout,yout)
+        hold on
+        plot(0:obj.ak.dt:obj.T,curSoln.x)
+        
         keyboard;
 
         % MILP PART END

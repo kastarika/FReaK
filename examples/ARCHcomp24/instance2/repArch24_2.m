@@ -121,9 +121,9 @@ for b = 1:length(benches)
         kfModel.spec = specification(eq,'logic');
         kfModel.runs=1;
         kfModel.verb=2;
-        kfModel.resetStrat=1;
-        kfModel.sampPerturb=0.02;
-        kfModel.trainStrat=2;
+        % kfModel.resetStrat=1;
+        % kfModel.sampPerturb=0.02;
+        % kfModel.trainStrat=2;
         kfModel.maxSims=300;
         kfModel.spec_string=coraBreachConvert(eq);
         % disp(kfModel.spec.toString())
@@ -131,7 +131,7 @@ for b = 1:length(benches)
         % kfModel.ose = tCC();
 
 
-        kfModel.nResets=3;
+        kfModel.nResets=5;
         % kfModel.ak.nObs=200;
         % kfModel.ak.rank=[50,200,50];
 

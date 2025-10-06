@@ -1,13 +1,13 @@
+clear;
 % algorithm settings
-numFeat = 50;          % number of observables
+numFeat = 75;          % number of observables
 l = 1;                 % lengthscale parameter
-maxFunEval = 400;      % max. number function evaluation for optimization
-maxIter = 50;         % max. number of iterations for optimization
+maxFunEval = 4000;      % max. number function evaluation for optimization
+maxIter = 500;         % max. number of iterations for optimization
 output_dim = 1;        % number of outputs of the system
 
 % generate Random Fourier Feature observables
 % g = randomFourierFeatureObservables(numFeat,2,l);
-g = randomFourierFeatureObservables(numFeat,output_dim,l);
 % 5 = number of outputs the system has
 
 % generate data
@@ -29,51 +29,66 @@ T = 24;
 time_step = 6;
 steps = T / time_step + 1;
 timestamps = (0:steps - 1)' * time_step;
-simu_name = 'phi1_m2_vr001_k5_2';
+% simu_name = 'phi1_m2_vr001_k5_2';
+% simu_name = 'phi2_m1_vr01_k2_2';
+simu_name = 'phi3_m2_vr001_k3_2';
 input_dims = 2;
 p = [];
 
 params.tFinal = T;
 
-trajes = cell(L, 1);
-disp(size(trajes));
-
-% for i = 1:L
-%     u = rand(steps, input_dims);
-%     trajes{i}.u = u;
-%     u = [timestamps, u];
-%     [tout, yout] = runSimu(simu_name, T, p, u);
-%     trajes{i}.t = tout;
-%     trajes{i}.x = yout;
-%     % disp(size(tout))
-%     % disp(size(yout))
-% end
-
 kfmodel = modelSynth1();
-kfmodel.ak.nObs = 50;
-kfmodel.ak.dt=6;
-x = stl('x',5);
-eq = globally(x(5)-x(4)<=40,interval(0,100));
-kfModel.spec = specification(eq,'logic');
-        kfModel.runs=1;
-        kfModel.verb=2;
-        kfModel.maxSims=300;
-        kfModel.spec_string=coraBreachConvert(eq);
+% kfmodel = modelCars2();
+kfmodel.ak.nObs = 75;
+kfmodel.ak.dt=0.1;
 [kfmodel,trainset,soln,specSolns,allData] = initialize(kfmodel);
 tak = (0:kfmodel.ak.dt:kfmodel.T)'; 
+
+trajes = cell(L, 1);
+trajes_og = cell(L, 1);
+trajes_normal = cell(L, 1);
+% disp(size(trajes));
+% keyboard
+dtkoop = 0.1;
+delay = 2;
 
 for i = 1:L
     [tsim,x,u,simTime, x00] = sampleSimulation(kfmodel);
     % disp(tsim);
     % keyboard
     % xak = interp1(tsim,x,tak,obj.trajInterpolation);
-    trajes{i}.u = u;  % Store the input for the current trajectory
-    trajes{i}.x = x;
-    trajes{i}.t = tsim;  % Store the time for the current trajectory
+    trajes_og{i}.u = u;  % Store the input for the current trajectory
+    trajes_og{i}.x = x;
+    trajes_og{i}.t = tsim;  % Store the time for the current trajectory
+    % keyboard;
+    trajes{i}.u = interp1(trajes_og{i}.u(:,1), trajes_og{i}.u, 0:dtkoop:T);
+    trajes{i}.x = interp1(trajes_og{i}.t, trajes_og{i}.x, 0:dtkoop:T)';
+    trajes{i}.t = (0:dtkoop:T)';
+    % keyboard
+    trajes_normal{i}.u = zscore(trajes{i}.u);
+    trajes_normal{i}.x = zscore(trajes{i}.x);
+    trajes_normal{i}.t = trajes{i}.t;
+    % 
+    % old_x = trajes_normal{i}.x;
+    % delay_x = zeros(length(old_x)-delay, size(old_x,2) + delay);
+    % for j = 1:length(trajes_normal{i}.x)-delay
+    %    delay_x(j,:) = reshape(old_x(j:j+delay, :)',1,size(old_x,2)*(delay+1)); 
+    % end
+    % % 
+    % % trajes_normal{i}.x = delay_x;
+    % % trajes_normal{i}.u = trajes_normal{i}.u(1:end-delay,:);
+    % % trajes_normal{i}.t = trajes_normal{i}.t(1:end-delay);
+    trajes{i} = trajes_normal{i};
 end
+keyboard
 
-koopModel = getautokoopman(trajes, kfmodel);
+g = randomFourierFeatureObservables(numFeat,output_dim,l);
 
+
+
+% keyboard;
+koopModel = getautokoopman(trajes_og, kfmodel);
+disp('out');
 % keyboard;
 
 % transform data by the observable function
@@ -128,11 +143,13 @@ disp(elapsed_time);
 % optOpts.alg = 'dmd';
 % sysDMD = aux_identifyDMD(data);
 
-keyboard;
+% keyboard;
 
 % simulate the Koopman model
 simResOpt = [];
 % simResDMD = [];
+
+
 
 for i = 1:L
 
@@ -144,6 +161,23 @@ for i = 1:L
 
     [tout,yout] = simulate(sysOpt,simOpts);
     yout = yout(:,1:output_dim);
+    figure;
+    hold on;
+    plot(tout, yout);
+    plot(data{i}.t, data{i}.x(:,1:output_dim));
+
+    tt = 0:kfmodel.ak.dt:kfmodel.T;
+    nn = length(tt);
+    x = zeros(size(koopModel.A,1), nn);
+    x(:,1) = koopModel.g(trajes_og{i}.x(1, :));
+    u = interp1(trajes_og{i}.u(:,1), trajes_og{i}.u(:,2:end), tt, 'linear')';
+    % keyboard;
+    for j = 2:length(x)
+        x(:,j) = koopModel.A * x(:,j-1) + koopModel.B * u(:,j-1);
+    end
+    % keyboard;
+    plot(tt,zscore(x(1:output_dim,:)'));
+    keyboard;
     % [tDMD,xDMD] = simulate(sysDMD,simOpts);
 
     simResOpt = [simResOpt;simResult({yout},{tout})];
@@ -151,20 +185,10 @@ for i = 1:L
 end
 
 
-disp(simResOpt)
+% disp(simResOpt)
 
 keyboard;
 
-for i=1:L
-    xkoop = simResOpt(i).x{1};
-    xkoop = xkoop(:,1:5);
-    tkoop = simResOpt(i).t{1};
-    figure; hold on;
-    plot(tkoop, xkoop);
-    plot(trajes{i}.t, trajes{i}.x);
-    % legend([h1,h2],'optimization','ground truth');
-    hold off;
-end
 % keyboard;
 % visualization
 
@@ -175,13 +199,29 @@ end
 
 function g = randomFourierFeatureObservables(numFeat,dim,l)
 % generate Random Fourier Feature observables cos(w'*x + u)
-
     % generate random scales and offsets
-    w = normrnd(0,l^2,numFeat,dim);
+    
+    s1 = floor(numFeat/8);
+    s2 = floor(numFeat/4);
+    s3 = numFeat - s2 - s1;
+
+    % l1 = l/4;
+    % l2 = l/2;
+    % l3 = l;
+    l1 = 1;
+    l2 = 0.1;
+    l3 = 0.01;
+    
+    w1 = normrnd(0,l1^2,s1,dim);
+    w2 = normrnd(0,l2^2,s2,dim);
+    w3 = normrnd(0,l3^2,s3,dim);
+    w = [w1;w2;w3];
+
+    % w = normrnd(0,l^2,numFeat,dim);
     u = 2*pi*rand(numFeat,1);
     
     % generate fourier transform observables
-    g = @(x) [x; sqrt(2)*cos(w*x + u)];
+    g = @(x) [x; sqrt(2/numFeat)*cos(w*x + u)];
 end
 
 % function sys = aux_identifyOpt(x,t,p,maxFunEval,maxIter)
@@ -211,9 +251,16 @@ function sys = aux_identifyOpt(data,p,maxFunEval,maxIter)
     end
 
     % determine initial guess via Dynamic Mode Decomposition (DMD)
-    sys = aux_identifyDMD(data);
+    % sys = aux_identifyDMD(data);
 
+    sys = aux_identifyEDMD(data);
     A0 = [sys.A,sys.c,sys.B];
+
+    % A_ = eye(size(sys.A));
+    % B_ = eye(size(sys.B));
+    % c_ = eye(size(sys.c));
+    % A0 = [A_,c_,B_];
+
     A0 = reshape(A0,[numel(A0),1]);
     % keyboard;
     % optimize using fmincon
@@ -223,7 +270,7 @@ function sys = aux_identifyOpt(data,p,maxFunEval,maxIter)
                             'Display','iter','MaxIter',maxIter, ...
                             'MaxFunctionEvaluations',maxFunEval, ...
                             'PlotFcn','optimplotfval');
-
+    % keyboard 
     Aall = fmincon(@(A) aux_costFunGrad(A,data,p),A0,[],[],[],[], ...
                                                         [],[],[],options);
 
@@ -313,7 +360,7 @@ function [cost, grad] = aux_costFunGrad(params, data, p)
     % Normalize cost and gradient
     cost = cost / total_samples;
     grad = grad / total_samples;
-    
+    % disp(cost);
     % Return gradient as column vector for solvers
     grad = grad(:);
 end
@@ -567,6 +614,73 @@ function data = aux_uniformTimeStepSize(data,dt)
     end
 end
 
+function sys = aux_identifyEDMD(data)
+% Identifies a linear discrete-time system using Extended Dynamic Mode Decomposition (EDMD)
+% with regularization for better conditioning
+
+    % Split the data into single data points
+    points = aux_getDataPoints(data);
+    
+    % Get dimensions
+    n = size(points.x, 2);        % lifted state dimension
+    m = size(points.u, 2);        % input dimension
+    N = size(points.x, 1);        % number of data points
+    
+    % Construct data matrices
+    % X = [x; 1; u] at time t
+    % Y = x at time t+1
+    X = [points.x'; ones(1, N)];
+    
+    if ~isempty(points.u)
+        X = [X; points.u'];
+    end
+    
+    Y = points.xNext';
+    
+    % Apply Tikhonov regularization to prevent ill-conditioning
+    % Rule of thumb: lambda = 1e-8 to 1e-4 depending on data scale
+    lambda = 1e-6 * norm(X, 'fro')^2 / N;
+    
+    % Solve regularized least squares: min ||Y - A*X||^2 + lambda*||A||^2
+    % Analytical solution: A = Y*X'*(X*X' + lambda*I)^(-1)
+    
+    XtX = X * X';
+    regularizer = lambda * eye(size(XtX));
+    
+    % Compute A using regularized pseudoinverse
+    Aall = Y * X' / (XtX + regularizer);
+    
+    % Alternative: use MATLAB's pinv with tolerance
+    % Aall = Y * pinv(X, lambda);
+    
+    % Extract system matrices
+    A = Aall(:, 1:n);              % State transition matrix
+    c = Aall(:, n+1);              % Constant offset
+    
+    if ~isempty(points.u)
+        B = Aall(:, n+2:end);      % Input matrix
+    else
+        B = zeros(n, 0);
+    end
+    
+    % Create discrete-time linear system
+    dt = data{1}.t(2) - data{1}.t(1);
+    sys = linearSysDT(A, B, c, dt);
+    
+    % Optional: Check and report conditioning
+    cond_number = cond(XtX + regularizer);
+    if cond_number > 1e10
+        warning('EDMD matrix is ill-conditioned (cond = %.2e). Consider increasing regularization.', cond_number);
+    end
+    
+    % Optional: Check eigenvalues for stability
+    eigvals = eig(A);
+    max_eig = max(abs(eigvals));
+    if max_eig > 1.5
+        warning('EDMD identified unstable dynamics (max |eig| = %.2f). Consider stabilizing initialization.', max_eig);
+    end
+end
+
 function sys = aux_identifyDMD(data)
 % identifies a linear discrete-time system from trajectory data using 
 % Dynamic Mode Decomposition (DMD)
@@ -673,3 +787,42 @@ function points = aux_getDataPoints(traj)
         end
     end
 end
+
+function plot_fft(trajectory, dt)
+% Your trajectory parameters
+% trajectory = your_zscore_data;
+% dt = your_time_interval;  % seconds between samples
+
+N = length(trajectory);
+Fs = 1/dt;  % Sampling frequency (Hz)
+
+% Compute FFT
+Y = fft(trajectory);
+P2 = abs(Y/N);              % Two-sided spectrum
+P1 = P2(1:floor(N/2)+1);    % Single-sided spectrum
+P1(2:end-1) = 2*P1(2:end-1); % Account for symmetry
+
+% Create proper frequency vector
+f = (0:floor(N/2)) * Fs/N;  % Frequency in Hz
+
+% Create time vector for plotting
+t = (0:N-1) * dt;  % Time in seconds
+
+% Plot both time domain and frequency domain
+figure('Position', [100 100 900 700]);
+
+subplot(2,1,1);
+plot(t, trajectory);
+title('Z-scored Trajectory (Time Domain)');
+xlabel('Time (seconds)');
+ylabel('Z-score');
+grid on;
+
+subplot(2,1,2);
+plot(f, P1);
+title('FFT Magnitude Spectrum');
+xlabel('Frequency (Hz)');
+ylabel('Magnitude');
+grid on;
+end
+
